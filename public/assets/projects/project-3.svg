@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141814" />
+      <stop offset="100%" stop-color="#090d09" />
+    </linearGradient>
+    <linearGradient id="glow3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#15803d" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg3)" rx="16"/>
+  <circle cx="510" cy="70" r="110" fill="#22c55e" opacity="0.08" filter="blur(40px)"/>
+  <g transform="translate(60, 60)">
+    <rect width="48" height="48" rx="12" fill="#142016" stroke="#22c55e" stroke-width="1.5"/>
+    <path d="M14 24h20M24 14v20" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="64" y="32" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="700" fill="#ffffff">全平台智能分流配置指南</text>
+    <text x="64" y="60" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#a0a0a5">Clash / Sing-box / Surge / Shadowrocket 规则库</text>
+  </g>
+  <g transform="translate(60, 160)">
+    <rect width="480" height="180" rx="12" fill="#0c140d" stroke="#182c1b" stroke-width="1"/>
+    <text x="24" y="38" font-family="monospace" font-size="13" fill="#22c55e">● 智能 GeoIP / 域名白名单: 自动绕过国内直连</text>
+    <text x="24" y="70" font-family="monospace" font-size="13" fill="#dfdfdf">● 自动测速负载均衡: 秒级故障自动故障转移</text>
+    <text x="24" y="102" font-family="monospace" font-size="13" fill="#dfdfdf">● 广告与隐私防护: 拦截恶意追踪与弹窗</text>
+    <rect x="24" y="128" width="432" height="12" rx="6" fill="#142317"/>
+    <rect x="24" y="128" width="420" height="12" rx="6" fill="url(#glow3)"/>
+  </g>
+</svg>

@@ -1,132 +1,404 @@
 ---
+import { brands } from "../data/brands";
 
-interface Project {
-  title: string;
-  image: string;
-  link: string;
-  preview: string;
-  status: string;
-}
-
-const projects: Project[] = [
-  {
-    title: "Project One",
-    image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Project+One",
-    link: "https://github.com",
-    preview: "https://example.com",
-    status: "Deployed",
-  },
-  {
-    title: "Project Two",
-    image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Project+Two",
-    link: "https://github.com",
-    preview: "https://example.com",
-    status: "On Development",
-  },
-  {
-    title: "Project Three",
-    image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Project+Three",
-    link: "https://github.com",
-    preview: "https://example.com",
-    status: "Contributor",
-  },
-  {
-    title: "Project Four",
-    image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Project+Four",
-    link: "https://github.com",
-    preview: "https://example.com",
-    status: "Deployed",
-  },
-];
+// All 42 brands: 光速云 is #1 featured, brands 2-42 in the grid
+const featuredBrand = brands[0]; // 光速云
+const otherBrands = brands.slice(1); // 41 other brands
 ---
 
 <section
   id="projects"
-  class="py-12 border-t border-[#ffffff10] text-[var(--white)]"
+  class="py-16 border-t border-[#ffffff10] text-[var(--white)]"
 >
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">My work</h2>
-    <h3 class="text-4xl md:text-5xl font-medium mb-8">Projects</h3>
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <span class="size-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+          <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase">
+            2026 全量收录 · 42 家机场深度评测
+          </span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-medium tracking-tight">
+          42 家机场品牌全量评测矩阵
+        </h2>
+      </div>
+      <div class="text-xs text-[var(--white-icon)] font-mono self-start md:self-auto bg-[#141416] px-3.5 py-2 rounded-xl border border-[#ffffff0a]">
+        已加载全部 <span class="text-[#A9FF5B] font-bold">42</span> 家服务商
+      </div>
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {
-        projects.map((project) => (
-          <div class="group">
+    <!-- No.1 第一主推旗舰：光速云 -->
+    <div class="relative overflow-hidden rounded-3xl border-2 border-[var(--sec)]/70 bg-gradient-to-b from-[#181324] via-[#121019] to-[#0c0a12] p-6 md:p-8 mb-10 shadow-2xl shadow-[#a476ff]/15">
+      <div class="absolute -top-12 -right-12 size-64 bg-[#a476ff]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-[#ffffff12]">
+        <div class="flex items-center gap-3">
+          <span class="px-3.5 py-1 text-xs font-bold tracking-wide rounded-full bg-[var(--sec)] text-black">
+            NO.1 主推旗舰
+          </span>
+          <h3 class="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
+            {featuredBrand.name}
+            <span class="text-xs text-[var(--sec)] font-normal border border-[#a476ff40] px-2 py-0.5 rounded-md">
+              2020年老牌稳定运营
+            </span>
+          </h3>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-[var(--white-icon)] block">入门成本</span>
+          <span class="text-lg md:text-xl font-bold font-mono text-[#A9FF5B]">
+            {featuredBrand.priceStarting}
+          </span>
+        </div>
+      </div>
+
+      <!-- Feature Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 my-6">
+        <div class="space-y-3 lg:col-span-2">
+          <p class="text-sm md:text-base text-[var(--white)] leading-relaxed">
+            {featuredBrand.shortDesc}
+          </p>
+
+          <!-- 核心优势 Badge -->
+          <div class="flex flex-wrap gap-2 pt-1">
+            {
+              featuredBrand.tags.map((tag) => (
+                <span class="px-3 py-1 rounded-lg text-xs bg-[#241a38] text-[#c9b3ff] border border-[#a476ff30]">
+                  {tag}
+                </span>
+              ))
+            }
+          </div>
+
+          <!-- 测速切片展示 -->
+          <div class="p-4 rounded-2xl bg-[#09080d] border border-[#ffffff0a] mt-4">
+            <div class="flex items-center justify-between mb-3 text-xs text-[var(--white-icon)]">
+              <span class="font-medium text-white flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--sec)]"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                晚高峰实测数据报告
+              </span>
+              <span class="text-[var(--sec)] font-mono">最高单节点 2.5Gbps</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              {
+                featuredBrand.testMetrics?.map((m) => (
+                  <div class="p-2.5 rounded-xl bg-[#14121a] border border-[#ffffff06]">
+                    <div class="text-[var(--white-icon)] truncate">{m.node}</div>
+                    <div class="flex justify-between items-baseline mt-1 font-mono">
+                      <span class="text-[#A9FF5B] font-semibold">{m.download}</span>
+                      <span class="text-[#9999a0] text-[11px]">{m.latency}</span>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Conversion / Action Area -->
+        <div class="flex flex-col justify-between p-5 rounded-2xl bg-[#15121e] border border-[var(--sec)]/30 space-y-4">
+          <div class="space-y-3">
+            <div class="text-xs text-[var(--white-icon)]">独家优惠码 (结账立减)</div>
+            <div class="flex items-center justify-between p-3 rounded-xl bg-[#0e0b14] border border-[#a476ff40]">
+              <span class="font-mono text-base font-bold text-[var(--sec)] tracking-wider">
+                {featuredBrand.couponCode || "AMM"}
+              </span>
+              <span class="text-[11px] text-[#A9FF5B] bg-[#A9FF5B]/10 px-2 py-0.5 rounded">
+                专属券
+              </span>
+            </div>
+            <div class="text-xs text-[var(--white-icon)] space-y-1">
+              <div>• 独家提供 <strong>致敬斯诺克147永久套餐</strong> (247GB不过期)</div>
+              <div>• 覆盖香港、日本、新加坡、美国等全球 12+ 枢纽</div>
+              <div>• 自研客户端 + Clash / Shadowrocket 通用订阅支持</div>
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-2">
             <a
-              href={project.preview}
+              href={featuredBrand.affiliateUrl}
               target="_blank"
-              rel="noopener noreferrer"
-              class="block"
+              rel="nofollow sponsored noopener"
+              class="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[var(--sec)] text-black font-semibold hover:opacity-95 transition-all text-sm shadow-lg shadow-[#a476ff]/20 active:scale-98"
             >
-              <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 mb-4">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  class="w-full h-48 md:h-72 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div class="flex items-center px-3">
-                <div class="flex-grow">
-                  <h4 class="text-2xl font-semibold">{project.title}</h4>
-                  <span class="py-1 text-sm text-[var(--white-icon)]">
-                    {project.status}
-                  </span>
-                </div>
-                <div class="flex gap-2 ml-auto">
-                  <a
-                    target="_blank"
-                    href={project.link}
-                    aria-label="GitHub"
-                    class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="size-7"
-                    >
-                      <path d="M24 12L18.3431 17.6569L16.9289 16.2426L21.1716 12L16.9289 7.75736L18.3431 6.34315L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6569L0 12L5.65685 6.34315L7.07107 7.75736L2.82843 12ZM9.78845 21H7.66009L14.2116 3H16.3399L9.78845 21Z" />
-                    </svg>
-                  </a>
-                  <a
-                    target="_blank"
-                    href={project.preview}
-                    aria-label="Preview"
-                    class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      class="size-7"
-                    >
-                      <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
+              <span>直达光速云官网注册</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             </a>
+            <a
+              href={`/brands/${featuredBrand.slug}`}
+              class="w-full text-center block py-2 text-xs text-[var(--white-icon)] hover:text-white transition-colors"
+            >
+              阅读光速云完整测评与测速大图 →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 即时筛选与搜索工具条 -->
+    <div class="p-4 md:p-5 rounded-2xl bg-[#141416] border border-[#ffffff10] mb-8 space-y-3">
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <!-- 搜索框 -->
+        <div class="relative flex-grow">
+          <input
+            type="text"
+            id="home-brand-search"
+            placeholder="在 42 家机场中搜索（如：暮光、飞猫、微风、IPLC、VLESS）..."
+            class="w-full px-4 py-2.5 pl-10 rounded-xl bg-[#0c0c0e] border border-[#ffffff15] text-white placeholder-[#71717a] text-xs md:text-sm focus:outline-none focus:border-[var(--sec)] transition-colors"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71717a]"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+
+        <div class="text-xs text-[var(--white-icon)] whitespace-nowrap self-center">
+          当前展示：<span id="home-match-count" class="font-bold text-[var(--sec)]">42</span> 家
+        </div>
+      </div>
+
+      <!-- 快捷标签 -->
+      <div class="flex flex-wrap items-center gap-1.5 text-xs pt-1">
+        <button
+          class="home-pill active px-3 py-1 rounded-lg border transition-all text-xs"
+          data-filter="all"
+        >
+          全部 42 家
+        </button>
+        <button
+          class="home-pill px-3 py-1 rounded-lg border transition-all text-xs"
+          data-filter="top10"
+        >
+          Top 10 精选
+        </button>
+        <button
+          class="home-pill px-3 py-1 rounded-lg border transition-all text-xs"
+          data-filter="speedtest"
+        >
+          有实测测速图 (17+)
+        </button>
+        <button
+          class="home-pill px-3 py-1 rounded-lg border transition-all text-xs"
+          data-filter="iepl"
+        >
+          IEPL 专线
+        </button>
+        <button
+          class="home-pill px-3 py-1 rounded-lg border transition-all text-xs"
+          data-filter="iplc"
+        >
+          IPLC 专线
+        </button>
+        <button
+          class="home-pill px-3 py-1 rounded-lg border transition-all text-xs"
+          data-filter="vless"
+        >
+          VLESS 协议
+        </button>
+      </div>
+    </div>
+
+    <!-- 全部 41 家其他机场网格（100% 全部直接展示） -->
+    <div id="home-brands-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        otherBrands.map((brand) => (
+          <div
+            class="home-brand-card group flex flex-col justify-between rounded-2xl bg-[#141416] border border-[#ffffff10] hover:border-[var(--sec)]/60 transition-all duration-300 p-6 shadow-md hover:shadow-xl"
+            data-name={brand.name.toLowerCase()}
+            data-line={brand.lineType.toLowerCase()}
+            data-protocol={brand.protocol.toLowerCase()}
+            data-hastest={brand.hasSpeedtest ? "true" : "false"}
+            data-top10={brand.isTop10 ? "true" : "false"}
+            data-desc={brand.shortDesc.toLowerCase()}
+          >
+            <div>
+              <!-- Top bar -->
+              <div class="flex items-center justify-between pb-3 border-b border-[#ffffff08] mb-4">
+                <div class="flex items-center gap-2">
+                  <span class={`size-6 rounded-full flex items-center justify-center text-xs font-bold font-mono ${
+                    brand.isTop10 ? "bg-[#241a38] text-[var(--sec)]" : "bg-[#1c1c22] text-[#9ca3af]"
+                  }`}>
+                    #{brand.rank}
+                  </span>
+                  <h4 class="text-lg font-semibold text-white group-hover:text-[var(--sec)] transition-colors">
+                    {brand.name}
+                  </h4>
+                  {brand.isTop10 && (
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-[#241a38] text-[#c9b3ff] border border-[#a476ff30] font-medium">
+                      Top 10
+                    </span>
+                  )}
+                </div>
+                <span class="text-xs font-mono font-medium text-[#A9FF5B]">
+                  {brand.priceStarting}
+                </span>
+              </div>
+
+              <!-- Desc -->
+              <p class="text-xs text-[var(--white-icon)] line-clamp-2 leading-relaxed mb-4">
+                {brand.shortDesc}
+              </p>
+
+              <!-- Line & Protocol Tags -->
+              <div class="flex flex-wrap gap-1.5 mb-4 text-[11px]">
+                <span class="px-2.5 py-0.5 rounded-md bg-[#1d1d24] text-[#cfcfd4] border border-[#ffffff0a]">
+                  {brand.lineType}
+                </span>
+                <span class="px-2.5 py-0.5 rounded-md bg-[#1d1d24] text-[#cfcfd4] border border-[#ffffff0a]">
+                  {brand.protocol}
+                </span>
+                {brand.hasSpeedtest && (
+                  <span class="px-2 py-0.5 rounded-md bg-[#22c55e15] text-[#4ade80] border border-[#22c55e30]">
+                    有实测图
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <!-- Bottom CTA Area -->
+            <div class="pt-4 border-t border-[#ffffff08] flex items-center justify-between gap-3">
+              <a
+                href={`/brands/${brand.slug}`}
+                class="text-xs text-[var(--white-icon)] hover:text-white flex items-center gap-1 font-medium transition-colors"
+              >
+                查看测评详情
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+
+              <a
+                href={brand.affiliateUrl}
+                target="_blank"
+                rel="nofollow sponsored noopener"
+                class="px-4 py-2 rounded-xl bg-[#221c2e] hover:bg-[var(--sec)] text-[var(--sec)] hover:text-black font-medium text-xs transition-all border border-[#a476ff40]"
+              >
+                官网直达 {brand.couponCode ? `(券:${brand.couponCode})` : ""}
+              </a>
+            </div>
           </div>
         ))
       }
     </div>
-    <a
-      target="_blank"
-      href="https://github.com"
-      aria-label="GitHub"
-      class="w-full flex items-center justify-center gap-2 mt-9 text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)] hover:scale-105"
+
+    <!-- Empty state for homepage search -->
+    <div
+      id="home-empty-state"
+      class="hidden flex-col items-center justify-center p-10 text-center rounded-2xl bg-[#141416] border border-[#ffffff10] my-8 space-y-2"
     >
-      <span class="md:text-lg text-md">More projects on</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="size-6"
+      <div class="text-3xl">🔍</div>
+      <h3 class="text-base font-medium text-white">未找到匹配的机场品牌</h3>
+      <p class="text-xs text-[var(--white-icon)]">
+        请尝试清空搜索框或点击“全部 42 家”重置筛选。
+      </p>
+    </div>
+
+    <!-- Bottom summary banner -->
+    <div class="mt-12 text-center p-6 rounded-2xl bg-[#121214] border border-[#ffffff0a] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--white-icon)]">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#A9FF5B]"></span>
+        <span>42 家品牌全量数据已加载 · 零外链暗桩 · 100% 独立资产托管</span>
+      </div>
+      <a
+        href="/speedtest"
+        class="text-[var(--sec)] hover:underline flex items-center gap-1 font-medium"
       >
-        <path
-          d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"
-        ></path>
-      </svg>
-    </a>
+        查看 17+ 晚高峰测速大图报告 →
+      </a>
+    </div>
   </div>
 </section>
+
+<style>
+  .home-pill {
+    background-color: #121214;
+    border-color: #ffffff14;
+    color: var(--white-icon);
+  }
+  .home-pill:hover {
+    border-color: var(--sec);
+    color: white;
+  }
+  .home-pill.active {
+    background-color: var(--sec);
+    border-color: var(--sec);
+    color: black;
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const searchInput = document.getElementById("home-brand-search") as HTMLInputElement;
+  const cards = document.querySelectorAll(".home-brand-card") as NodeListOf<HTMLElement>;
+  const matchCount = document.getElementById("home-match-count");
+  const emptyState = document.getElementById("home-empty-state");
+  const pills = document.querySelectorAll(".home-pill");
+
+  let currentFilter = "all";
+  let searchQuery = "";
+
+  function applyHomeFilters() {
+    let visibleCount = 1; // Count Guangshuyun (featured card always visible)
+    const q = searchQuery.toLowerCase().trim();
+
+    cards.forEach((card) => {
+      const name = card.dataset.name || "";
+      const line = card.dataset.line || "";
+      const protocol = card.dataset.protocol || "";
+      const hasTest = card.dataset.hastest === "true";
+      const top10 = card.dataset.top10 === "true";
+      const desc = card.dataset.desc || "";
+
+      const textMatch = !q || name.includes(q) || line.includes(q) || protocol.includes(q) || desc.includes(q);
+
+      let pillMatch = true;
+      if (currentFilter === "speedtest") pillMatch = hasTest;
+      else if (currentFilter === "iepl") pillMatch = line.includes("iepl");
+      else if (currentFilter === "iplc") pillMatch = line.includes("iplc");
+      else if (currentFilter === "vless") pillMatch = protocol.includes("vless");
+      else if (currentFilter === "top10") pillMatch = top10;
+
+      if (textMatch && pillMatch) {
+        card.style.display = "flex";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    if (matchCount) matchCount.textContent = visibleCount.toString();
+    if (emptyState) {
+      if (visibleCount <= 1 && q !== "") {
+        emptyState.classList.remove("hidden");
+        emptyState.classList.add("flex");
+      } else {
+        emptyState.classList.add("hidden");
+        emptyState.classList.remove("flex");
+      }
+    }
+  }
+
+  searchInput?.addEventListener("input", (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    applyHomeFilters();
+  });
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      pills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentFilter = pill.getAttribute("data-filter") || "all";
+      applyHomeFilters();
+    });
+  });
+</script>

@@ -1,0 +1,305 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+import { brands } from "@/data/brands";
+
+const title = "2026 免费翻墙资源与公益节点大全 | 开源订阅源与避坑实测指南【老牌机场】";
+const description = "老牌机场整理 2026 最新免费科学上网资源、GitHub 每日更新公益订阅源、官方免费试用节点清单，深度剖析免费节点的安全隐私风险与断流痛点，并提供极低成本的备用防失联解决方案。";
+
+const featuredBrand = brands[0]; // 光速云
+const cheapBrands = brands.filter((b) => b.priceStarting.includes("5.6") || b.priceStarting.includes("8") || b.priceStarting.includes("7"));
+---
+
+<Layout title={title} description={description} canonical="https://jichanglaopai.blog/free/">
+  <Nav />
+
+  <main class="max-w-5xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Header -->
+    <div class="mb-12 text-left space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase">
+          Open Source & Free Proxy Hub · 独立公益整理
+        </span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight">
+        2026 免费科学上网资源与公益节点全景指南
+      </h1>
+      <p class="text-sm md:text-base text-[var(--white-icon)] max-w-3xl leading-relaxed">
+        为学生、临时出海差旅人员及突发断网应急群体汇编真实可用的开源免费节点库、公共订阅转换接口及官方合规试用策略。同时从底层网络协议角度揭秘免费节点的隐私隐患与限速真相。
+      </p>
+    </div>
+
+    <!-- Quick Index Bar -->
+    <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] mb-12 flex flex-wrap gap-2 text-xs">
+      <span class="text-[var(--white-icon)] px-2 py-1">专题目录:</span>
+      <a href="#github-sources" class="px-3 py-1 rounded-lg bg-[#1e1e24] hover:bg-[var(--sec)] hover:text-black transition-colors">1. 开源公益订阅源</a>
+      <a href="#trial-policies" class="px-3 py-1 rounded-lg bg-[#1e1e24] hover:bg-[var(--sec)] hover:text-black transition-colors">2. 官方免费试用通道</a>
+      <a href="#free-risks" class="px-3 py-1 rounded-lg bg-[#1e1e24] hover:bg-[var(--sec)] hover:text-black transition-colors">3. 免费节点的五大致命陷阱</a>
+      <a href="#low-cost-solution" class="px-3 py-1 rounded-lg bg-[#241a38] text-[var(--sec)] border border-[var(--sec)]/40 font-semibold hover:bg-[var(--sec)] hover:text-black transition-colors">4. 极低成本稳定备选方案 (推荐)</a>
+      <a href="#free-toolbox" class="px-3 py-1 rounded-lg bg-[#1e1e24] hover:bg-[var(--sec)] hover:text-black transition-colors">5. 网络与隐私检测工具箱</a>
+    </div>
+
+    <!-- Section 1: 开源公益订阅源 -->
+    <section id="github-sources" class="space-y-6 mb-16 scroll-mt-28">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="size-3 rounded-full bg-[var(--sec)]"></span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          一、长期维护的开源免费节点与订阅项目汇编
+        </h2>
+      </div>
+
+      <p class="text-xs md:text-sm text-[var(--white-icon)] leading-relaxed">
+        互联网上存在部分由开源社区或技术志愿者通过扫描公网公开代理（如 ZoomEye、Shodan）或使用云厂商免费额度（Cloudflare Workers、Oracle Free Tier）搭建的公益节点池。以下为目前社区中活跃度较高、更新较为频繁的开源订阅聚合：
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm">GitHub 自动抓取公益节点池</h3>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-[#22c55e15] text-[#4ade80]">每日更新</span>
+          </div>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            收集公网公开爬取的 Vmess / Vless / Shadowsocks 节点，通过 GitHub Actions 自动化测速剔除不可用节点后生成 Base64 订阅。
+          </p>
+          <div class="p-2.5 rounded-lg bg-[#0c0c0e] font-mono text-[11px] text-[#A9FF5B] break-all border border-[#ffffff06]">
+            https://raw.githubusercontent.com/freefq/free/master/v2
+          </div>
+          <span class="text-[11px] text-[#71717a] block">特点：节点数量多（100+），但连通率波动大，晚高峰基本卡顿。</span>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm">Cloudflare Workers 免费反代节点</h3>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-[#38bdf815] text-[#38bdf8]">Vless-CDN</span>
+          </div>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            利用 Cloudflare 的全球边缘 CDN 反代流量，基于 edgetunnel 等开源脚本部署在 CF Workers 上，端口多为 443 或 80。
+          </p>
+          <div class="p-2.5 rounded-lg bg-[#0c0c0e] font-mono text-[11px] text-[#A9FF5B] break-all border border-[#ffffff06]">
+            vless://[uuid]@cloudflare.com:443?encryption=none&security=tls
+          </div>
+          <span class="text-[11px] text-[#71717a] block">特点：抗封锁能力较强，但由于 CF 免费节点被滥用，IP 频繁触发验证码。</span>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-[#181313] border border-[#f59e0b30] text-xs text-[#fbbf24] leading-relaxed">
+        <strong>⚠️ 公益节点使用警告：</strong> 公共节点属于多人在同一服务器上混用，<strong>严禁在连接免费公共节点时登录个人银行账户、输入支付密码或处理敏感公司内网业务</strong>。流量可能被节点架设者抓包（Packet Sniffing）或记录明文数据。
+      </div>
+    </section>
+
+    <!-- Section 2: 官方免费试用通道 -->
+    <section id="trial-policies" class="space-y-6 mb-16 scroll-mt-28">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="size-3 rounded-full bg-[#A9FF5B]"></span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          二、主流合规机场官方试用与零元应急策略
+        </h2>
+      </div>
+
+      <p class="text-xs md:text-sm text-[var(--white-icon)] leading-relaxed">
+        如果只是临时几小时需要查资料或测试连接，建议优先使用正规机场提供的**官方免费试用或小额体验包**，不仅具备专业线路加速，还能避免被公网黑客中间人窃听：
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-2">
+          <div class="font-bold text-white text-sm">注册免验证送流量型</div>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            部分新上线或推广期机场为吸引用户，注册即赠送 5GB - 20GB 高速体验流量，有效期 24 至 72 小时，适合应急下载客户端。
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-2">
+          <div class="font-bold text-white text-sm">每日打卡签到型</div>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            少数老牌机场保留了“每日签到抽奖”机制，每天在控制台打卡可随机获取 500MB 至 2GB 流量，轻度文字办公可实现长期免费。
+          </p>
+        </div>
+        <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-2">
+          <div class="font-bold text-white text-sm">1 元防滥用象征性试用</div>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            为了防止黑产脚本批量薅羊毛，大部分优质专线机场采用 1 元 / 3 天或 1 元 / 10GB 的防刷策略，可完整体验晚高峰真实专线品质。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: 免费节点的五大致命陷阱 -->
+    <section id="free-risks" class="space-y-6 mb-16 scroll-mt-28">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="size-3 rounded-full bg-[#ef4444]"></span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          三、技术解密：为什么免费节点“看似免费，实则最贵”？
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff0a] space-y-2">
+          <h3 class="font-bold text-white text-sm flex items-center gap-2">
+            <span class="text-[#ef4444]">01</span> 中间人攻击与数据窃取 (Man-in-the-Middle)
+          </h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            很多免费节点由不可信第三方部署，节点搭建者可以通过伪造 SSL 根证书或分析非 HTTPS 流量，直接截获未加密的会话 Cookie、访问足迹及邮箱账号信息。
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff0a] space-y-2">
+          <h3 class="font-bold text-white text-sm flex items-center gap-2">
+            <span class="text-[#ef4444]">02</span> IP 遭到 ChatGPT / Claude / Google 永久封锁
+          </h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            数以万计的人同时使用同一个免费节点的出口 IP，该 IP 会被 OpenAI、Cloudflare 防火墙判定为恶意的机器人爬虫网络，导致直接被拒绝访问或封停绑定的账号。
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff0a] space-y-2">
+          <h3 class="font-bold text-white text-sm flex items-center gap-2">
+            <span class="text-[#ef4444]">03</span> 极高丢包率与“晚高峰心脏停搏”
+          </h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            免费节点走的大多是普通公网直连（骨干网），晚高峰时国际出口丢包率往往超过 60%，视频只能维持在 360P 甚至频繁重试断流，严重浪费个人的时间与心情。
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff0a] space-y-2">
+          <h3 class="font-bold text-white text-sm flex items-center gap-2">
+            <span class="text-[#ef4444]">04</span> 沉没的时间成本 (Time Drain)
+          </h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            据统计，依赖免费节点的用户平均每周要花 3 - 5 个小时去到处寻找新的可用订阅链接。按照最低时薪计算，寻找免费节点付出的精力和时间远超购买几个月稳定专线的成本。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: 极低成本稳定备选方案 (核心转化漏斗) -->
+    <section id="low-cost-solution" class="space-y-6 mb-16 scroll-mt-28">
+      <div class="p-8 rounded-3xl bg-gradient-to-b from-[#1c142c] via-[#141020] to-[#0c0a12] border-2 border-[var(--sec)]/70 shadow-2xl shadow-[#a476ff]/15 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#ffffff12]">
+          <div>
+            <span class="text-xs font-bold tracking-wider uppercase text-[var(--sec)] block mb-1">
+              THE SMART ALTERNATIVE · 聪明人的极低成本解法
+            </span>
+            <h2 class="text-2xl md:text-3xl font-bold text-white">
+              告别断流焦虑：月折合一杯豆浆钱，换取全年无感专线
+            </h2>
+          </div>
+          <span class="text-xs font-mono px-3 py-1.5 rounded-xl bg-[#A9FF5B]/15 text-[#A9FF5B] border border-[#A9FF5B]/30 font-bold whitespace-nowrap self-start sm:self-auto">
+            省心度提升 1000%
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 space-y-4 text-xs md:text-sm text-[var(--white-icon)] leading-relaxed">
+            <p>
+              与其天天在电报群、GitHub 查找随时失效、速度极慢且有隐私风险的免费订阅，不如选择经过 5 年以上市场考验、采用 <strong>IEPL / IPLC 物理专线</strong> 的平价老牌机场。
+            </p>
+            <p>
+              以本站第一主推的 <strong>{featuredBrand.name}</strong> 为例：
+            </p>
+            <div class="p-4 rounded-xl bg-[#0b0a10] border border-[#ffffff0a] space-y-2 text-xs">
+              <div class="flex items-center justify-between text-white font-medium">
+                <span>• 年付轻量套餐折合仅需：</span>
+                <span class="font-mono text-base font-bold text-[#A9FF5B]">约 8 元 / 月 (每月69GB)</span>
+              </div>
+              <div class="flex items-center justify-between text-white font-medium">
+                <span>• 独家斯诺克147永久备用套餐：</span>
+                <span class="font-mono text-base font-bold text-[var(--sec)]">¥147 一次性 (247GB 永久不过期)</span>
+              </div>
+              <p class="text-[11px] text-[#71717a] pt-1">
+                * 适合将永久套餐作为应急副梯：平时备用，哪怕放半年不用流量也不会清零失效，完美解决突发失联痛点！
+              </p>
+            </div>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-[#110e1a] border border-[var(--sec)]/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-2">
+              <span class="text-xs text-[var(--white-icon)]">光速云官方专属优惠码</span>
+              <div class="p-3 rounded-xl bg-[#09070e] font-mono text-lg font-bold text-[var(--sec)] text-center tracking-wider border border-[#a476ff40]">
+                {featuredBrand.couponCode || "AMM"}
+              </div>
+              <span class="text-[11px] text-[var(--white-icon)] block text-center">
+                全节点 2.5Gbps · IEPL 企业专线 · 原生 IP 解锁
+              </span>
+            </div>
+
+            <a
+              href={featuredBrand.affiliateUrl}
+              target="_blank"
+              rel="nofollow sponsored noopener"
+              class="w-full py-3.5 px-4 rounded-xl bg-[var(--sec)] text-black font-bold text-center text-xs hover:opacity-95 transition-opacity shadow-lg shadow-[#a476ff]/20"
+            >
+              一键直达光速云官网体验 →
+            </a>
+          </div>
+        </div>
+
+        <!-- More low-cost options -->
+        <div class="pt-4 border-t border-[#ffffff0a]">
+          <div class="text-xs text-[var(--white-icon)] mb-3">更多平价备用高性价比选择：</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            {cheapBrands.slice(0, 3).map((b) => (
+              <a href={`/brands/${b.slug}`} class="p-3 rounded-xl bg-[#121118] border border-[#ffffff08] hover:border-[var(--sec)] transition-colors flex justify-between items-center">
+                <span class="font-medium text-white">{b.name}</span>
+                <span class="text-[#A9FF5B] font-mono">{b.priceStarting}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: 开源网络检测工具箱 -->
+    <section id="free-toolbox" class="space-y-6 mb-16 scroll-mt-28">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="size-3 rounded-full bg-[#38bdf8]"></span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          五、极客必备：免费网络安全与隐私检测工具箱
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-2">
+          <h3 class="font-bold text-white text-sm">DNS 泄露检测</h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            检查连接代理后，操作系统是否仍然向运营商默认 DNS 服务器发送解析请求（DNS Leak）。
+          </p>
+          <a href="https://dnsleaktest.com" target="_blank" rel="noopener noreferrer" class="text-[var(--sec)] hover:underline inline-block pt-1">
+            访问 DNSLeakTest ↗
+          </a>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-2">
+          <h3 class="font-bold text-white text-sm">WebRTC 真实 IP 暴露检测</h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            检测浏览器内置的 WebRTC 协议是否在不知不觉中透传了用户的真实局域网与公网真实 IP。
+          </p>
+          <a href="https://browserleaks.com/webrtc" target="_blank" rel="noopener noreferrer" class="text-[var(--sec)] hover:underline inline-block pt-1">
+            访问 BrowserLeaks ↗
+          </a>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-2">
+          <h3 class="font-bold text-white text-sm">IP 纯净度与欺诈分检测</h3>
+          <p class="text-[var(--white-icon)] leading-relaxed">
+            查询当前节点的 IP 属于数据中心机房 IP 还是住宅原生 IP，以及是否被列入各大反欺诈黑名单。
+          </p>
+          <a href="https://scamalytics.com" target="_blank" rel="noopener noreferrer" class="text-[var(--sec)] hover:underline inline-block pt-1">
+            访问 Scamalytics ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <div class="text-center pt-8 border-t border-[#ffffff10] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--white-icon)]">
+      <span>老牌机场知识库 · 100% 独立资产托管</span>
+      <div class="flex gap-4">
+        <a href="/faq" class="text-[var(--sec)] hover:underline">阅读万字级机场技术 FAQ →</a>
+        <a href="/warnings" class="text-[var(--sec)] hover:underline">查看跑路预警雷达 →</a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

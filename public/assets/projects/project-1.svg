@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141419" />
+      <stop offset="100%" stop-color="#09090c" />
+    </linearGradient>
+    <linearGradient id="glow1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a476ff" />
+      <stop offset="100%" stop-color="#5e4491" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#bg1)" rx="16"/>
+  <circle cx="500" cy="80" r="120" fill="#a476ff" opacity="0.08" filter="blur(40px)"/>
+  <circle cx="100" cy="320" r="100" fill="#a476ff" opacity="0.05" filter="blur(30px)"/>
+  <g transform="translate(60, 60)">
+    <rect width="48" height="48" rx="12" fill="#1e1e24" stroke="#a476ff" stroke-width="1.5"/>
+    <path d="M16 24h16M24 16l8 8-8 8" stroke="#a476ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="64" y="32" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="700" fill="#ffffff">IPLC 专线极速网络实测</text>
+    <text x="64" y="60" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" fill="#a0a0a5">晚高峰 8K 秒开 · 4K 零缓冲 · 物理专线不过 GFW</text>
+  </g>
+  <g transform="translate(60, 160)">
+    <rect width="480" height="180" rx="12" fill="#121216" stroke="#25252c" stroke-width="1"/>
+    <text x="24" y="38" font-family="monospace" font-size="13" fill="#a476ff">● 延迟检测 (Ping): 32ms (HK) / 48ms (JP) / 120ms (US)</text>
+    <text x="24" y="70" font-family="monospace" font-size="13" fill="#dfdfdf">● 丢包率 (Packet Loss): 0.00% (高峰期连续压测 72h)</text>
+    <text x="24" y="102" font-family="monospace" font-size="13" fill="#dfdfdf">● AI / ChatGPT 解锁: 100% 原生纯净 IP</text>
+    <rect x="24" y="128" width="432" height="12" rx="6" fill="#1d1d24"/>
+    <rect x="24" y="128" width="410" height="12" rx="6" fill="url(#glow1)"/>
+  </g>
+</svg>

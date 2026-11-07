@@ -1,0 +1,200 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+
+const title = "2026 机场百科全书与终极 FAQ 指南 | 专线原理、协议对比与避坑技术全解【老牌机场】";
+const description = "老牌机场编写的万字级机场技术百科。全景解答 IPLC/IEPL 物理专线与 BGP 中继差异、VLESS-Reality 协议抗封锁原理、ChatGPT 与流媒体全解锁配置、TUN 模式冲突及防跑路避坑常识，配有 Schema 结构化微数据。";
+
+interface FAQItem {
+  q: string;
+  a: string;
+  category: string;
+}
+
+const faqs: FAQItem[] = [
+  // 1. 线路与物理拓扑
+  {
+    category: "线路架构与网络拓扑",
+    q: "什么是 IPLC 专线？为什么说 IPLC 物理专线不过 GFW？",
+    a: "IPLC（International Private Leased Circuit，国际私有租用线路）是电信运营商直接铺设的点对点跨境内网物理专线（如广港、沪日物理光缆）。因为流量在国内入口就直接进入了运营商的内部物理线路传输，全程不经过公网国际互联网出口网关（GFW），因此在物理层面上完全免疫防火长城的关键词深度包检测（DPI）与封锁，晚高峰稳定性极高且丢包率几乎为 0。"
+  },
+  {
+    category: "线路架构与网络拓扑",
+    q: "IEPL 专线与 IPLC 专线有什么区别？哪个更好？",
+    a: "IEPL（International Ethernet Private Line，国际以太网专线）是基于二层以太网技术的跨境专线，与 IPLC 的核心体验非常接近。两者的核心价值都在于“跨境不走公网”。细微差异在于：IEPL 在网络调度、以太网封装扩展和多点互联上更加灵活，常用于跨国跨地域企业内网组网；而 IPLC 则是传统的点对点物理通道。对于机场用户而言，两者的速度与晚高峰抗封锁表现处于同一顶级水准。"
+  },
+  {
+    category: "线路架构与网络拓扑",
+    q: "什么是 BGP 隧道中转？它和直连节点有什么区别？",
+    a: "普通公网直连节点是由您的本地网络直接发起连接到海外服务器，晚高峰极易受骨干网拥堵和 GFW 干扰。而 BGP 隧道中转则是机场在国内租用了多线 BGP 服务器（接入电信、联通、移动多线网络），用户先以极低延迟直连到国内 BGP 入口，再由国内入口通过隧道加密转发到海外落地节点。BGP 解决了三网跨运营商互联的延迟劣势，是仅次于专线的性价比优选。"
+  },
+  {
+    category: "线路架构与网络拓扑",
+    q: "为什么节点延迟很低（如 20ms），但看视频却很卡？",
+    a: "在客户端（如 Clash）中看到的“延迟”（Ping / TLS Handshake RTT）仅仅代表您的设备与“国内中转入口”之间的握手耗时，并不等同于从国内入口到海外落地机房、再到目标网站服务器的全程端到端耗时。如果机场的海外落地机房带宽不足或超载塞车，即使入口延迟只有 15ms，实际下载速度和并发吞吐依然会极慢。"
+  },
+
+  // 2. 协议与加密生态
+  {
+    category: "传输协议与加密混淆",
+    q: "VLESS-Reality 与传统 Shadowsocks (SS) 相比，优势在哪里？",
+    a: "Shadowsocks 属于纯对称加密协议，虽然性能极高、CPU 开销小，但由于没有伪装握手层，在公网直连环境下容易被机器学习模型通过流量熵值分析识别特征。而 VLESS-Reality 协议则直接借用了真实合规境外大型网站（如微软、苹果或 Cloudflare）的 TLS 证书进行伪装借壳，GFW 在审查时看到的是合法的公网 TLS 流量，无法区分是代理还是正常网页访问，抗封锁能力目前公认最强。"
+  },
+  {
+    category: "传输协议与加密混淆",
+    q: "什么是 Hysteria 2 协议？适合什么网络场景？",
+    a: "Hysteria 2 是基于标准 QUIC (UDP) 协议开发的高性能代理协议，拥有极其激进的自研丢包拥塞控制算法。在极其恶劣的弱网环境（如校园网限速、晚高峰骨干网丢包 30% 以上的偏远地区），传统的 TCP 协议会因为重传机制导致网速断崖式下跌，而 Hysteria 2 能通过 UDP 暴力发包跑满物理带宽。缺点是在部分对 UDP 严重限速或 QoS 惩罚的宽带环境下表现欠佳。"
+  },
+  {
+    category: "传输协议与加密混淆",
+    q: "专线机场还需要用高混淆协议吗？",
+    a: "专线机场（IPLC/IEPL）由于跨境段本身走的是物理内网，公网防火墙根本触碰不到跨境流量，因此专线机场往往更倾向于使用开销极低、转发速度极快、延迟最小的 Shadowsocks 协议，从而压榨出服务器的极限吞吐；而直连或普通中转机场则必须依赖 VLESS-Reality 或 Trojan 等具备强伪装的协议防封锁。"
+  },
+
+  // 3. 流媒体与 AI 大模型解锁
+  {
+    category: "流媒体与 AI 大模型解锁",
+    q: "为什么我的节点能看 YouTube 4K，但打开 ChatGPT 却显示“Access Denied”？",
+    a: "YouTube 和 Google 对 IP 风控极其宽松，只要网络通畅就能播放 4K 视频。而 OpenAI、Claude 等前沿 AI 平台部署了极严苛的反欺诈风控规则。它们会调用 IP 数据库（如 IP2Location、MaxMind、Scamalytics）检查当前出口 IP 是否属于公共机房数据中心（Data Center IP）或近期存在滥用记录。若机场节点采用的是廉价机房广播 IP，就会被 OpenAI 直接拦截。需要使用配备原生住宅 IP 或高质量机房干净 IP 的节点。"
+  },
+  {
+    category: "流媒体与 AI 大模型解锁",
+    q: "原生 IP 与广播 IP 到底有什么区别？",
+    a: "原生 IP（Native IP）是指 IP 地址的注册机构所在地、注册归属地与服务器实际物理机房完全一致的 IP（例如香港原生 IP 的 Whois 注册地就是中国香港，由本地运营商分配）。广播 IP（Broadcast/Anycast IP）则是通过 BGP 协议将注册在其他国家（如欧美）的闲置 IP 宣告并广播到目标机房使用。流媒体（Netflix/Disney+）和银行、AI 平台对广播 IP 的判定极为敏感，原生 IP 解锁率远高于广播 IP。"
+  },
+  {
+    category: "流媒体与 AI 大模型解锁",
+    q: "如何解决 Claude 提示“App not available in your country”？",
+    a: "Claude 的风控比 ChatGPT 更严格。排查四步法：1. 确保节点地区属于支持区域（如美国、日本、英国、新加坡，注意香港节点不支持 Claude）；2. 浏览器开启无痕模式，并清空本地 LocalStorage 与 Cookie；3. 检查 WebRTC 是否泄露真实国内 IP（可通过 BrowserLeaks 检查）；4. 在客户端开启 TUN 模式或设置全局规则，防止 WebSocket 握手直连泄露真实位置。"
+  },
+
+  // 4. 客户端与分流规则
+  {
+    category: "客户端配置与路由规则",
+    q: "什么是 TUN 模式？为什么有时候开了代理命令行却不走代理？",
+    a: "常规的系统代理（System Proxy）只对主动遵循操作系统代理协议的软件生效（如 Chrome、Edge、微信内置浏览器等）。而终端命令行（PowerShell、Git、Docker、Node.js）以及很多桌面游戏、出海 App 默认忽略系统代理设置。TUN 模式通过在操作系统内核层创建一块虚拟网卡，从 IP 协议栈的最底层强行拦截并接管所有发往外部的 TCP/UDP 数据包，实现 100% 全局无死角转发。"
+  },
+  {
+    category: "客户端配置与路由规则",
+    q: "如何确保国内 App（微信、网易云、B站、淘宝）不走代理流量？",
+    a: "在客户端（如 Clash Verge Rev）中选择“规则模式 (Rule)”，并在订阅配置中包含 GeoIP:CN 及国内域名白名单规则。客户端会首先比对目标访问地址：若是国内 IP 或 .cn 域名，直接由本地网络发起直连（Direct），既不经过海外服务器，也不会消耗您的套餐流量，同时还能保证微信视频通话零延迟。"
+  },
+  {
+    category: "客户端配置与路由规则",
+    q: "订阅链接（Subscription Link）泄露了怎么办？",
+    a: "订阅链接相当于您在机场账户的“提货凭证”，任何人只要拿到订阅链接，都可以直接导入客户端消耗您的套餐流量。如果怀疑订阅泄露，请立即登录机场官网用户后台，点击“重置订阅链接 / 重置 Token”。重置后旧订阅链接瞬间失效，所有已绑定的第三方客户端需重新导入新链接。"
+  },
+
+  // 5. 安全隐私与防雷
+  {
+    category: "安全隐私与数据合规",
+    q: "使用机场会不会被网络服务商记录我的密码或敏感数据？",
+    a: "现代互联网 95% 以上的流量均采用了端到端强加密的 HTTPS / TLS 1.3 协议。即便经过机场服务器，机场主在技术上也只能看到您访问的目标域名（如 github.com、openai.com）以及产生的数据包大小，根本无法解密出您的登录密码、聊天正文或支付卡号。但为防万一，建议严禁在不可信节点环境下安装对方提供的任何根安全证书。"
+  },
+  {
+    category: "安全隐私与数据合规",
+    q: "注册机场账号应该使用什么邮箱？",
+    a: "强烈建议使用海外隐私邮箱（如 ProtonMail、Outlook、Gmail），绝对不要使用含有您真实姓名全拼、生日、手机号或企事业单位域名的国内主力邮箱（如 @qq.com、@163.com、公司企业邮箱）注册机场，保障个人数字资产与出海行为的严格物理隔离。"
+  },
+
+  // 6. 避坑与计费常识
+  {
+    category: "选购指南与计费常识",
+    q: "什么是“幽灵倍率”？机场节点倍率是怎么计算的？",
+    a: "节点倍率决定了您的流量扣除速度。如果某个节点标注为 1.0x 倍率，您下载 1GB 文件就扣除 1GB 套餐额度；如果是 0.2x 倍率，下载 1GB 只扣 200MB。但有些不良机场会搞“幽灵倍率”——表面标 1.0x，后台暗自按照 3.0x 甚至 5.0x 扣费，导致套餐几天就耗尽。优质老牌机场均公开透明全节点 1.0x 倍率并提供实时消耗流水日志。"
+  },
+  {
+    category: "选购指南与计费常识",
+    q: "为什么永远不推荐新手一次性购买三年甚至终身套餐？",
+    a: "跨境网络服务具备强政策敏感性与高带宽硬件运维成本。正规专线每 Gbps 带宽的机房月付硬成本高达上万元。任何宣称“一次性 99 元终身无限流量”的机场本质上都是庞氏资金盘，一旦新用户涌入放缓无法覆盖机房月租，机场主就会连夜删库跑路。理智消费的黄金法则是：月付优先，即便选择年付，也只选运营 3 年以上、单价在合理区间（如年付折合 8~20 元/月）的稳定老牌。"
+  }
+];
+
+const categories = Array.from(new Set(faqs.map((f) => f.category)));
+
+// Schema.org FAQPage Structured Data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((item) => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+---
+
+<Layout title={title} description={description} canonical="https://jichanglaopai.blog/faq/">
+  <Nav />
+
+  <main class="max-w-5xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Header -->
+    <div class="mb-12 text-left space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase">
+          Network Knowledge Base · 万字深度技术百科
+        </span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight">
+        机场全景百科与技术问答 (FAQ)
+      </h1>
+      <p class="text-sm md:text-base text-[var(--white-icon)] max-w-3xl leading-relaxed">
+        涵盖物理专线底层拓扑、新一代伪装协议、ChatGPT 与流媒体原生解锁机理、TUN 虚拟网卡配置冲突以及安全隐私防踩坑知识。通俗易懂地拆解技术黑话，为您的出海连接保驾护航。
+      </p>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] mb-12 flex flex-wrap gap-2 text-xs">
+      <span class="text-[var(--white-icon)] px-2 py-1">核心板块:</span>
+      {categories.map((cat, idx) => (
+        <a
+          href={`#cat-${idx}`}
+          class="px-3.5 py-1.5 rounded-lg bg-[#1e1e24] hover:bg-[var(--sec)] hover:text-black transition-colors font-medium"
+        >
+          {cat}
+        </a>
+      ))}
+    </div>
+
+    <!-- FAQ Sections Stack -->
+    <div class="space-y-16">
+      {categories.map((cat, idx) => {
+        const catFaqs = faqs.filter((f) => f.category === cat);
+        return (
+          <section id={`cat-${idx}`} class="space-y-6 scroll-mt-28">
+            <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+              <span class="size-3 rounded-full bg-[var(--sec)]"></span>
+              <h2 class="text-2xl md:text-3xl font-bold text-white">
+                {cat}
+              </h2>
+            </div>
+
+            <div class="space-y-4">
+              {catFaqs.map((faq) => (
+                <div class="p-6 rounded-2xl bg-[#141416] border border-[#ffffff10] hover:border-[var(--sec)]/40 transition-colors space-y-3 shadow-md">
+                  <h3 class="text-base md:text-lg font-bold text-white flex items-start gap-2.5">
+                    <span class="text-[var(--sec)] font-mono text-base">Q:</span>
+                    <span>{faq.q}</span>
+                  </h3>
+                  <div class="text-xs md:text-sm text-[var(--white-icon)] leading-relaxed pl-6 pt-1 border-t border-[#ffffff06]">
+                    {faq.a}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+
+    <!-- Schema.org FAQPage -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </main>
+
+  <Footer />
+</Layout>

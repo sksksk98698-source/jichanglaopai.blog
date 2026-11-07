@@ -1,23 +1,107 @@
 ---
 interface Props {
-  title: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  keywords?: string;
+  noindex?: boolean;
+  googleVerification?: string;
+  bingVerification?: string;
+  baiduVerification?: string;
+  shenmaVerification?: string;
 }
 
-const { title } = Astro.props;
+const siteUrl = Astro.site ? Astro.site.origin : "https://jichanglaopai.blog";
+const rawPath = Astro.url.pathname;
+const normalizedPath = rawPath.endsWith("/") ? rawPath : `${rawPath}/`;
+let rawCanonical = Astro.props.canonical || new URL(normalizedPath, siteUrl).href;
+const canonicalUrl = rawCanonical.endsWith("/") ? rawCanonical : `${rawCanonical}/`;
+
+const {
+  title = "老牌机场 | 2026稳定高速网络专线评测与机场推荐",
+  description = "老牌机场 (jichanglaopai.blog) 专注于高品质、高稳定性的网络基础设施评测、42家主流机场深度测速与客户端配置指南，主推光速云等核心专线品牌。",
+  image = new URL("/og.image.png", siteUrl).href,
+  keywords = "老牌机场, 翻墙机场推荐, IPLC专线测速, 科学上网, 4K流媒体解锁, 机场优惠码, Clash订阅, Sing-box配置",
+  noindex = false,
+  googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || "",
+  bingVerification = import.meta.env.PUBLIC_BING_SITE_VERIFICATION || "",
+  baiduVerification = import.meta.env.PUBLIC_BAIDU_SITE_VERIFICATION || "",
+  shenmaVerification = import.meta.env.PUBLIC_SHENMA_SITE_VERIFICATION || "",
+} = Astro.props;
+
+const siteName = "老牌机场";
+const pageTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      "name": "老牌机场实验室",
+      "url": `${siteUrl}/`,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteUrl}/favicon.png`
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "contact@jichanglaopai.blog",
+        "contactType": "customer service"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": `${siteUrl}/`,
+      "name": siteName,
+      "description": description,
+      "publisher": {
+        "@id": `${siteUrl}/#organization`
+      },
+      "inLanguage": "zh-CN"
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      "url": canonicalUrl,
+      "name": pageTitle,
+      "isPartOf": {
+        "@id": `${siteUrl}/#website`
+      },
+      "inLanguage": "zh-CN",
+      "description": description
+    }
+  ]
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <title>{title} | Portfolio</title>
-    <meta
-      name="description"
-      content="Your Name - Software Developer building interactive and seamless digital experiences with cutting-edge frontend development."
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={siteName} />
+    {noindex ? (
+      <meta name="robots" content="noindex, follow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    )}
+
+    <!-- 搜索引擎站长平台所有权验证接口 (Google / Bing / 百度 / 神马) -->
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+    {bingVerification && <meta name="msvalidate.01" content={bingVerification} />}
+    {baiduVerification && <meta name="baidu-site-verification" content={baiduVerification} />}
+    {shenmaVerification && <meta name="shenma-site-verification" content={shenmaVerification} />}
+
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="canonical" href="https://darkminimal.vercel.app/" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
 
     <link
       rel="preload"
@@ -27,42 +111,23 @@ const { title } = Astro.props;
       crossorigin="anonymous"
     />
 
-    <meta
-      property="og:title"
-      content="Your Name | Software Developer"
-    />
-    <meta
-      property="og:description"
-      content="Portfolio of Your Name, Software Developer specializing in frontend and interactive experiences."
-    />
-    <meta
-      property="og:image"
-      content="https://darkminimal.vercel.app/og.image.png"
-    />
-    <meta property="og:url" content="https://darkminimal.vercel.app" />
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta
-      property="og:site_name"
-      content="Your Name Portfolio"
-    />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={image} />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
 
     <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Your Name",
-        "alternateName": "Your Name",
-        "url": "https://darkminimal.vercel.app",
-        "image": "https://darkminimal.vercel.app/og.image.png",
-        "sameAs": [
-          "https://github.com",
-          "https://linkedin.com"
-        ],
-        "jobTitle": "Software Developer",
-        "description": "Software Developer building interactive and seamless digital experiences."
-      }
-    </script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body class="bg-[--background] sm:px-28 lg:px-20 px-9">
     <slot />
@@ -91,7 +156,12 @@ const { title } = Astro.props;
     font-family:
       "Montserrat Variable",
       -apple-system,
-      system-ui,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      "Noto Sans",
       sans-serif;
     box-sizing: border-box;
     padding: 0;
@@ -104,28 +174,26 @@ const { title } = Astro.props;
   }
 
   /* Scrollbar styles */
-
   ::-webkit-scrollbar {
-    width: 15px;
+    width: 10px;
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--container);
-    border-radius: 30px;
+    background: #141414;
+    border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--background);
+    background: #2a2a2a;
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--pink);
+    background: var(--sec);
   }
 
-  /* Scrollbar styles for Firefox */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--line) var(--container);
+    scrollbar-color: #2a2a2a #141414;
   }
 </style>

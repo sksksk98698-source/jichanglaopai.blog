@@ -1,0 +1,150 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+import { clients } from "@/data/clients";
+
+const title = "2026 机场代理客户端大全 | Windows/Mac/iOS/Android/Linux 客户端下载与配置";
+const description = "整理收录 2026 最主流跨平台代理工具大全。提供 Clash Verge Rev、v2rayN、Shadowrocket (小火箭)、Stash、v2rayNG、OpenClash 官方正版下载源、Mihomo/sing-box 内核特性与订阅导入保姆级教程。";
+
+const categories = ["Windows", "Android", "iOS", "macOS", "Linux", "OpenWrt"] as const;
+---
+
+<Layout title={title} description={description} canonical="https://jichanglaopai.blog/clients/">
+  <Nav />
+
+  <main class="max-w-5xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Header -->
+    <div class="mb-12 text-left space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase">
+          Client Knowledge Base · 官方正版收录
+        </span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight">
+        2026 全平台机场代理客户端大全
+      </h1>
+      <p class="text-sm md:text-base text-[var(--white-icon)] max-w-3xl leading-relaxed">
+        机场客户端主要分为通用第三方开源客户端与机场专属自研客户端。本指南汇总了 Windows、macOS、iOS、Android、Linux 及 OpenWrt 软路由环境下的首选客户端工具、核心特性与项目安全发布地址。
+      </p>
+    </div>
+
+    <!-- Quick Navigation Jump -->
+    <div class="flex flex-wrap gap-2 mb-12 p-3 rounded-2xl bg-[#141416] border border-[#ffffff10] text-xs">
+      <span class="text-[var(--white-icon)] px-2 py-1">平台直达:</span>
+      {categories.map((cat) => (
+        <a
+          href={`#platform-${cat.toLowerCase()}`}
+          class="px-3.5 py-1.5 rounded-xl bg-[#1e1e24] hover:bg-[var(--sec)] hover:text-black transition-colors font-medium text-[var(--white)]"
+        >
+          {cat} 客户端
+        </a>
+      ))}
+    </div>
+
+    <!-- Platforms List -->
+    <div class="space-y-16">
+      {categories.map((cat) => {
+        const catClients = clients.filter((c) => c.category === cat);
+        return (
+          <section id={`platform-${cat.toLowerCase()}`} class="space-y-6 scroll-mt-28">
+            <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+              <span class="size-3 rounded-full bg-[var(--sec)]"></span>
+              <h2 class="text-2xl md:text-3xl font-bold text-white">
+                {cat} 平台客户端推荐
+              </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {catClients.map((client) => (
+                <div class="p-6 rounded-3xl bg-[#141416] border border-[#ffffff10] hover:border-[var(--sec)]/50 transition-all flex flex-col justify-between space-y-4 shadow-lg">
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                      <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                        {client.name}
+                        {client.isRecommended && (
+                          <span class="text-[10px] px-2 py-0.5 rounded bg-[#A9FF5B]/15 text-[#A9FF5B] border border-[#A9FF5B]/30 font-semibold">
+                            首选推荐
+                          </span>
+                        )}
+                      </h3>
+                      <span class="text-xs font-mono text-[var(--sec)] px-2 py-0.5 rounded bg-[#241a38]">
+                        {client.kernel}
+                      </span>
+                    </div>
+
+                    <p class="text-xs text-[var(--white-icon)] leading-relaxed">
+                      {client.highlight}
+                    </p>
+
+                    <div class="flex flex-wrap gap-1.5 pt-1 text-[11px]">
+                      {client.features.map((feat) => (
+                        <span class="px-2.5 py-0.5 rounded bg-[#1e1e24] text-[#cfcfd4] border border-[#ffffff06]">
+                          ✓ {feat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div class="pt-4 border-t border-[#ffffff08] flex items-center justify-between">
+                    <span class="text-xs text-[#71717a]">
+                      渠道: {client.sourceType}
+                    </span>
+                    <a
+                      href={client.downloadUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="px-4 py-2 rounded-xl bg-[#221c2e] hover:bg-[var(--sec)] text-[var(--sec)] hover:text-black font-semibold text-xs transition-colors border border-[#a476ff40]"
+                    >
+                      获取下载 ↗
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+
+    <!-- Setup FAQ & Tutorial Section -->
+    <div class="mt-16 p-8 rounded-3xl bg-[#141416] border border-[#ffffff10] space-y-6 shadow-xl">
+      <h2 class="text-2xl font-bold text-white pb-3 border-b border-[#ffffff10]">
+        客户端订阅导入与常见疑问 (FAQ)
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-[var(--white-icon)]">
+        <div class="p-4 rounded-2xl bg-[#0c0c0e] space-y-2">
+          <h4 class="font-bold text-white text-sm">Q: 什么是 TUN 模式？什么时候需要开启？</h4>
+          <p class="leading-relaxed">
+            TUN 模式通过在操作系统内创建虚拟网卡接管所有网络流量。对于不遵循系统代理设置的软件（如命令行工具、某些出海游戏客户端、部分桌面版 AI 客户端），开启 TUN 模式可实现 100% 全局无缝接管。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#0c0c0e] space-y-2">
+          <h4 class="font-bold text-white text-sm">Q: 为什么苹果 iOS 下载不到小火箭 (Shadowrocket)？</h4>
+          <p class="leading-relaxed">
+            由于政策限制，Shadowrocket、Stash 等代理应用仅在上架了海外地区（如美区、日区、港区）的 App Store。需准备非国区 Apple ID 并在该账号内完成购买或兑换后即可正常下载使用。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#0c0c0e] space-y-2">
+          <h4 class="font-bold text-white text-sm">Q: 如何防止国内应用（微信/百度/淘宝）消耗代理流量？</h4>
+          <p class="leading-relaxed">
+            请确保客户端运行在“规则分流 (Rule)”模式，并启用内置的 GeoIP / 国内直连白名单规则。主流机场订阅均包含针对国内常见域名的直连分流配置，不会消耗您的海外套餐流量。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#0c0c0e] space-y-2">
+          <h4 class="font-bold text-white text-sm">Q: 遇到节点超时或订阅更新失败怎么办？</h4>
+          <p class="leading-relaxed">
+            首先检查本地网络连接是否正常；若订阅被运营商阻断，可在机场官网用户后台获取备用订阅链接或切换为无混淆节点；此外定期在客户端内点击“更新订阅”可获取最新的容灾节点列表。
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

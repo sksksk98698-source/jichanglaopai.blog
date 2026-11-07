@@ -1,0 +1,237 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+
+const title = "实验室评测方法论与标准规范 | 晚高峰专线测速口径与商业独立性声明【老牌机场】";
+const description = "老牌机场实验室（jichanglaopai.blog）公开透明的 42 家机场评测方法论。详述中国三大运营商千兆探针环境、20:00-23:00晚高峰压测标准、四维量化评分体系及商业合作独立性披露。";
+const canonical = "https://jichanglaopai.blog/methodology/";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "首页",
+          "item": "https://jichanglaopai.blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "实验室评测方法论",
+          "item": canonical
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "老牌机场实验室评测方法论与数据采集标准规范 (2026年版)",
+      "description": description,
+      "author": {
+        "@type": "Organization",
+        "name": "老牌机场实验室",
+        "url": "https://jichanglaopai.blog/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "老牌机场",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://jichanglaopai.blog/favicon.png"
+        }
+      },
+      "datePublished": "2026-01-01",
+      "dateModified": "2026-11-06",
+      "mainEntityOfPage": canonical
+    }
+  ]
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonical={canonical}
+  keywords="机场评测方法, 晚高峰测速标准, IPLC专线检测, 节点丢包率测试, 商业独立性声明, 老牌机场实验室"
+>
+  <Nav />
+
+  <main class="max-w-4xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[var(--white-icon)] mb-6">
+      <a href="/" class="hover:text-white transition-colors">首页</a>
+      <span>/</span>
+      <span class="text-[var(--sec)] font-medium">实验室评测方法论</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="mb-12 text-left space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase font-mono">
+          E-E-A-T Standards · 评测准则与技术白皮书
+        </span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-medium tracking-tight">
+        老牌机场实验室评测方法论与测试规范
+      </h1>
+      <p class="text-sm md:text-base text-[var(--white-icon)] max-w-3xl leading-relaxed">
+        为确保 42 家机场品牌库数据的严谨性、可复现性与客观性，老牌机场实验室制定并严格遵循以下技术测试标准。本白皮书公开我们的测试硬件探针、采集时间窗口、多维量化模型及商业利益回避机制。
+      </p>
+    </div>
+
+    <!-- Quick Index Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-14 text-xs">
+      <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-1">
+        <span class="text-[var(--sec)] font-mono font-bold">01 / 环境探针</span>
+        <div class="text-white font-medium">三大运营商千兆真机</div>
+        <p class="text-[var(--white-icon)]">覆盖电信、联通、移动多省份骨干网节点</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-1">
+        <span class="text-[#A9FF5B] font-mono font-bold">02 / 窗口时间</span>
+        <div class="text-white font-medium">20:00 - 23:00 晚高峰</div>
+        <p class="text-[var(--white-icon)]">国际出口 QoS 最严苛时段定点压测</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-1">
+        <span class="text-[#38bdf8] font-mono font-bold">03 / 评分模型</span>
+        <div class="text-white font-medium">四维加权量化评估</div>
+        <p class="text-[var(--white-icon)]">稳定性(35%)、专线度(25%)、解锁(20%)、年限(20%)</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-[#141416] border border-[#ffffff10] space-y-1">
+        <span class="text-[#f59e0b] font-mono font-bold">04 / 独立声明</span>
+        <div class="text-white font-medium">透明返佣与负面保留</div>
+        <p class="text-[var(--white-icon)]">商业赞助绝不干预缺点与警示项标注</p>
+      </div>
+    </div>
+
+    <!-- Section 1: 测试基准与探针拓扑 -->
+    <section class="space-y-6 mb-16">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="text-xl font-bold font-mono text-[var(--sec)]">#01</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          一、实测探针环境与硬件拓扑 (Testing Infrastructure)
+        </h2>
+      </div>
+      <p class="text-sm text-[var(--white-icon)] leading-relaxed">
+        常规云服务器 VPS 互测无法代表真实境内家庭用户的网络体感。老牌机场实验室在全国部署了多套物理探针，统一测试基准：
+      </p>
+
+      <div class="space-y-3">
+        <div class="p-4 rounded-xl bg-[#141416] border border-[#ffffff0a] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <div>
+            <span class="text-sm font-semibold text-white">探针 A · 中国电信 (China Telecom)</span>
+            <p class="text-xs text-[var(--white-icon)]">1000M 下行 / 100M 上行 · 广东骨干节点</p>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-[#1e1e24] text-xs font-mono text-[#A9FF5B]">主要评估国际出口高峰丢包</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[#141416] border border-[#ffffff0a] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <div>
+            <span class="text-sm font-semibold text-white">探针 B · 中国联通 (China Unicom)</span>
+            <p class="text-xs text-[var(--white-icon)]">1000M 下行 / 60M 上行 · 北京北方枢纽</p>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-[#1e1e24] text-xs font-mono text-[#38bdf8]">评估直连与日韩低延迟路由</span>
+        </div>
+
+        <div class="p-4 rounded-xl bg-[#141416] border border-[#ffffff0a] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <div>
+            <span class="text-sm font-semibold text-white">探针 C · 中国移动 (China Mobile)</span>
+            <p class="text-xs text-[var(--white-icon)]">500M 下行 / 50M 上行 · 华东家庭宽带</p>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-[#1e1e24] text-xs font-mono text-[#f59e0b]">重点检验跨网中继及 CMI 专线</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: 评分机制与加权计算 -->
+    <section class="space-y-6 mb-16">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="text-xl font-bold font-mono text-[var(--sec)]">#02</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          二、四维加权客观量化评分模型 (Scoring Methodology)
+        </h2>
+      </div>
+      <p class="text-sm text-[var(--white-icon)] leading-relaxed">
+        本站所有机场品牌的评分（如 4.9 分、4.8 分）均经过标准化指标换算，严禁拍脑袋凭空给分：
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border border-[#ffffff15] rounded-xl overflow-hidden">
+          <thead class="bg-[#141416] text-[var(--sec)] uppercase font-mono">
+            <tr>
+              <th class="p-3 border-b border-[#ffffff10]">评估维度</th>
+              <th class="p-3 border-b border-[#ffffff10]">权重</th>
+              <th class="p-3 border-b border-[#ffffff10]">具体考核指标</th>
+              <th class="p-3 border-b border-[#ffffff10]">满分基准要求</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#ffffff08] bg-[#0d0d10] text-[var(--white)]">
+            <tr>
+              <td class="p-3 font-semibold text-white">晚高峰抗丢包度</td>
+              <td class="p-3 font-mono text-[#A9FF5B]">35%</td>
+              <td>20:00-23:00 丢包率 (Ping 1000 次) 与时延抖动 Jitter</td>
+              <td>丢包率 &lt; 0.5%，抖动 &lt; 5ms</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">物理链路质量</td>
+              <td class="p-3 font-mono text-[#A9FF5B]">25%</td>
+              <td>是否具备真实内网专线 (IPLC/IEPL)，入口多点容灾能力</td>
+              <td>双内网专线 + BGP 动态故障切换</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">原生解锁能力</td>
+              <td class="p-3 font-mono text-[#A9FF5B]">20%</td>
+              <td>Netflix、Disney+、ChatGPT、Claude 3.7、TikTok 解锁状态</td>
+              <td>核心枢纽节点 100% 原生全绿解锁</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">运营周期与信誉</td>
+              <td class="p-3 font-mono text-[#A9FF5B]">20%</td>
+              <td>无重大故障连续运营月数、工单平均响应时效、退款协议保障</td>
+              <td>运营超过 3 年以上，工单响应 &lt; 2小时</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: 商业独立性与利益回避 -->
+    <section class="space-y-6 mb-16">
+      <div class="flex items-center gap-3 pb-3 border-b border-[#ffffff10]">
+        <span class="text-xl font-bold font-mono text-[var(--sec)]">#03</span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white">
+          三、商业合作独立性披露 (Affiliate Disclosure)
+        </h2>
+      </div>
+      <div class="p-6 rounded-2xl bg-[#141416] border border-[#ffffff15] space-y-4 text-sm text-[var(--white-icon)] leading-relaxed">
+        <p>
+          1. <strong class="text-white">返佣链接声明</strong>：为了支撑物理探针服务器集群、购买各品牌商用套餐以维持长期监控，本站部分品牌外链包含商业推广返佣代码（Affiliate Link）。我们在所有外部链接上均严格附加了 <code class="text-[var(--sec)]">rel="nofollow sponsored noopener"</code> 合规属性。
+        </p>
+        <p>
+          2. <strong class="text-white">评测独立性原则</strong>：任何商业合作或返佣关系，<strong class="text-[#ef4444]">绝不影响</strong>我们在报告中对任何品牌客观存在之缺点的如实指出。若服务商发生晚高峰严重丢包、线路持续降级或跑路征兆，我们将无条件在全站醒目标记风险警告，甚至直接录入跑路预警黑名单。
+        </p>
+        <p>
+          3. <strong class="text-white">纠错与数据更新机制</strong>：各服务商如更换专线机房、升级协议或调整套餐，欢迎通过官方邮箱 <a href="mailto:contact@jichanglaopai.blog" class="text-[var(--sec)] underline">contact@jichanglaopai.blog</a> 提交技术参数校准申请。实验室将在 48 小时内复测验证。
+        </p>
+      </div>
+    </section>
+
+    <!-- Back to Hubs -->
+    <div class="pt-8 border-t border-[#ffffff10] flex flex-wrap gap-4 items-center justify-between">
+      <a href="/brands" class="text-xs text-[var(--sec)] hover:underline flex items-center gap-1">
+        ← 返回 42 家机场品牌库
+      </a>
+      <a href="/speedtest" class="text-xs text-[var(--white-icon)] hover:text-white flex items-center gap-1">
+        查看晚高峰节点测速大图 →
+      </a>
+    </div>
+  </main>
+
+  <Footer />
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</Layout>

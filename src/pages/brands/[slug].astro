@@ -1,0 +1,416 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+import { brands, type Brand } from "@/data/brands";
+
+export async function getStaticPaths() {
+  return brands.map((brand) => ({
+    params: { slug: brand.slug },
+    props: { brand },
+  }));
+}
+
+
+const brand = Astro.props.brand as Brand;
+
+const pageTitle = `${brand.name} 深度测评 (2026最新) | 专线测速、套餐价格与最新优惠码`;
+const pageDescription = `2026 年最新 ${brand.name} 真实使用体验测评报告。提供晚高峰节点延迟实测、丢包率、全 IPLC/IEPL 专线架构分析、流媒体与 ChatGPT 解锁状态、各档位价格表及最新优惠码。`;
+const canonical = `https://jichanglaopai.blog/brands/${brand.slug}/`;
+const pageKeywords = `${brand.name}, ${brand.name}深度测评, ${brand.name}官网地址, ${brand.name}优惠码, ${brand.lineType}, ${brand.protocol}, 晚高峰测速, 4K流媒体解锁`;
+
+// Extract true base price without concatenating traffic numbers
+const priceMatch = brand.priceStarting.match(/\d+(\.\d+)?/);
+const lowPrice = priceMatch ? priceMatch[0] : "10";
+
+// Schema.org Structured Data
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "首页",
+          "item": "https://jichanglaopai.blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "42家机场品牌库",
+          "item": "https://jichanglaopai.blog/brands/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": `${brand.name} 深度测评`,
+          "item": canonical
+        }
+      ]
+    },
+    {
+      "@type": "Product",
+      "name": `${brand.name} 网络加速专线服务`,
+      "description": brand.shortDesc,
+      "brand": {
+        "@type": "Brand",
+        "name": brand.name
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "CNY",
+        "lowPrice": lowPrice,
+        "offerCount": brand.plans && brand.plans.length ? String(brand.plans.length) : "1",
+        "priceValidUntil": "2027-12-31",
+        "url": canonical
+      },
+      "review": {
+        "@type": "Review",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": brand.isFeatured ? "4.9" : (brand.isTop10 ? "4.8" : "4.5"),
+          "bestRating": "5"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "老牌机场实验室"
+        }
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": brand.faq.map((item) => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  keywords={pageKeywords}
+>
+  <Nav />
+
+  <main class="max-w-4xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[var(--white-icon)] mb-6">
+      <a href="/" class="hover:text-white transition-colors">首页</a>
+      <span>/</span>
+      <a href="/brands" class="hover:text-white transition-colors">42家机场品牌库</a>
+      <span>/</span>
+      <span class="text-[var(--sec)] font-medium">{brand.name}</span>
+    </nav>
+
+    <!-- Header Card -->
+    <div class="p-6 md:p-8 rounded-3xl bg-[#141416] border border-[#ffffff15] shadow-2xl mb-8 space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#ffffff10]">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-[#1e1e24] text-[var(--sec)]">
+              #{brand.rank}
+            </span>
+            {brand.isFeatured && (
+              <span class="px-2.5 py-0.5 rounded text-xs font-bold bg-[var(--sec)] text-black">
+                本站第一主推旗舰
+              </span>
+            )}
+            {brand.isTop10 && !brand.isFeatured && (
+              <span class="px-2.5 py-0.5 rounded text-xs font-semibold bg-[#241a38] text-[#c9b3ff] border border-[#a476ff30]">
+                Top 10 核心推荐
+              </span>
+            )}
+            <span class="text-xs text-[var(--white-icon)] font-mono">
+              更新于 2026-11
+            </span>
+          </div>
+
+          <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white">
+            {brand.name} 测评报告
+          </h1>
+        </div>
+
+        <div class="text-left md:text-right">
+          <span class="text-xs text-[var(--white-icon)] block">参考价格</span>
+          <span class="text-xl md:text-2xl font-bold font-mono text-[#A9FF5B]">
+            {brand.priceStarting}
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Specs Matrix -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+        <div class="p-3 rounded-xl bg-[#0d0d10] border border-[#ffffff08]">
+          <span class="text-[var(--white-icon)] block mb-1">线路架构</span>
+          <span class="font-medium text-white">{brand.lineType}</span>
+        </div>
+        <div class="p-3 rounded-xl bg-[#0d0d10] border border-[#ffffff08]">
+          <span class="text-[var(--white-icon)] block mb-1">传输协议</span>
+          <span class="font-medium text-white">{brand.protocol}</span>
+        </div>
+        <div class="p-3 rounded-xl bg-[#0d0d10] border border-[#ffffff08]">
+          <span class="text-[var(--white-icon)] block mb-1">节点与带宽</span>
+          <span class="font-medium text-white">{brand.nodesCount}</span>
+        </div>
+        <div class="p-3 rounded-xl bg-[#0d0d10] border border-[#ffffff08]">
+          <span class="text-[var(--white-icon)] block mb-1">客户端兼容</span>
+          <span class="font-medium text-white">{brand.clientSupport.split(" ")[0]}</span>
+        </div>
+      </div>
+
+      <!-- CTA Box -->
+      <div class="p-5 rounded-2xl bg-gradient-to-r from-[#1f1633] to-[#121118] border border-[var(--sec)]/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-1 text-center sm:text-left">
+          <div class="text-sm font-semibold text-white flex items-center justify-center sm:justify-start gap-2">
+            <span>官方直达通道</span>
+            {brand.couponCode && (
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-[var(--sec)]/20 text-[var(--sec)] border border-[#a476ff40]">
+                优惠码: {brand.couponCode}
+              </span>
+            )}
+          </div>
+          <p class="text-xs text-[var(--white-icon)]">
+            本站提供官方最新防失联镜像通道，保障结账时享受最优惠折扣。
+          </p>
+        </div>
+
+        <a
+          href={brand.affiliateUrl}
+          target="_blank"
+          rel="nofollow sponsored noopener"
+          class="w-full sm:w-auto px-6 py-3 rounded-xl bg-[var(--sec)] text-black font-semibold text-sm hover:opacity-95 transition-all text-center whitespace-nowrap shadow-lg shadow-[#a476ff]/20 active:scale-98"
+        >
+          访问 {brand.name} 官网 →
+        </a>
+      </div>
+
+      <div class="text-[11px] text-[#71717a] text-center">
+        * 声明：注册链接含推广参数（rel="nofollow sponsored noopener"），通过本链接开通可能为本站运维带来佣金，不影响您的实际结算价格。
+      </div>
+    </div>
+
+    <!-- Speedtest Section (If available) -->
+    {brand.hasSpeedtest && (
+      <div class="p-6 md:p-8 rounded-3xl bg-[#141416] border border-[#ffffff15] shadow-xl mb-8 space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-[#ffffff10]">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="size-2 rounded-full bg-[#22c55e]"></span>
+              <span class="text-xs font-mono uppercase tracking-wider text-[var(--sec)]">
+                Network Observatory Data
+              </span>
+            </div>
+            <h2 class="text-2xl font-bold text-white">
+              晚高峰专线实测报告与节点指标
+            </h2>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded bg-[#22c55e15] text-[#4ade80] border border-[#22c55e30]">
+            MAI-TEST 实测
+          </span>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {brand.testMetrics?.map((m) => (
+            <div class="p-3 rounded-xl bg-[#0c0c0e] border border-[#ffffff0a]">
+              <span class="text-xs text-[var(--white-icon)] block truncate">{m.node}</span>
+              <div class="text-base font-bold font-mono text-[#A9FF5B] mt-1">{m.download}</div>
+              <span class="text-[11px] text-[#71717a] font-mono">延迟: {m.latency}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Speedtest Image Container -->
+        <div class="mt-4 rounded-2xl overflow-hidden border border-[#ffffff12] bg-[#0c0c0e]">
+          <div class="p-3 bg-[#111114] border-b border-[#ffffff08] flex items-center justify-between text-xs text-[var(--white-icon)]">
+            <span>实测截图存档：{brand.name} 节点跑速测速大图</span>
+            <span class="text-[11px] text-[#71717a]">点击可放大查看</span>
+          </div>
+          <div class="p-4 flex justify-center bg-[#08080a]">
+            <a href={brand.speedtestImage} target="_blank" class="block group relative">
+              <img
+                src={brand.speedtestImage}
+                alt={`${brand.name} 节点测速实测图`}
+                class="max-h-96 w-auto rounded-lg object-contain transition-transform group-hover:scale-[1.01]"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg">
+                <span class="px-4 py-2 rounded-lg bg-black/80 text-xs text-white border border-white/20">
+                  点击在新标签页查看原始高清图 ↗
+                </span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {brand.speedtestGallery && (
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+            {brand.speedtestGallery.map((imgUrl, i) => (
+              <a href={imgUrl} target="_blank" class="block rounded-xl overflow-hidden border border-[#ffffff10] bg-[#0c0c0e] hover:border-[var(--sec)] transition-colors">
+                <img src={imgUrl} alt={`${brand.name} 解锁测试图 ${i + 1}`} class="h-28 w-full object-cover" loading="lazy" />
+                <span class="block text-center py-1.5 text-[11px] text-[var(--white-icon)] bg-[#121214]">测试图 #{i + 1}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- Stream & AI Unlock Matrix -->
+    <div class="p-6 md:p-8 rounded-3xl bg-[#141416] border border-[#ffffff15] shadow-xl mb-8 space-y-6">
+      <h2 class="text-2xl font-bold text-white pb-4 border-b border-[#ffffff10]">
+        流媒体与 AI 工具解锁矩阵
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- AI Tools -->
+        <div class="p-4 rounded-2xl bg-[#0c0c0e] border border-[#ffffff0a] space-y-3">
+          <div class="text-sm font-semibold text-[var(--sec)] flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            AI 工具生态解锁 (原生 IP 支持)
+          </div>
+          <div class="space-y-2 text-xs">
+            {brand.unlockAI.map((ai) => (
+              <div class="flex items-center justify-between p-2 rounded-lg bg-[#141418]">
+                <span class="text-white font-medium">{ai}</span>
+                <span class="px-2 py-0.5 rounded text-[11px] bg-[#22c55e15] text-[#4ade80] border border-[#22c55e30]">
+                  可用 / 原生支持
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Streaming Services -->
+        <div class="p-4 rounded-2xl bg-[#0c0c0e] border border-[#ffffff0a] space-y-3">
+          <div class="text-sm font-semibold text-[#38bdf8] flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            海外流媒体全区解锁
+          </div>
+          <div class="space-y-2 text-xs">
+            {brand.unlockStreaming.map((st) => (
+              <div class="flex items-center justify-between p-2 rounded-lg bg-[#141418]">
+                <span class="text-white font-medium">{st}</span>
+                <span class="px-2 py-0.5 rounded text-[11px] bg-[#38bdf815] text-[#38bdf8] border border-[#38bdf830]">
+                  4K / 全区解锁
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plans & Pricing Table -->
+    <div class="p-6 md:p-8 rounded-3xl bg-[#141416] border border-[#ffffff15] shadow-xl mb-8 space-y-6">
+      <h2 class="text-2xl font-bold text-white pb-4 border-b border-[#ffffff10]">
+        套餐价格与流量规格表
+      </h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-[#ffffff10] text-[var(--white-icon)]">
+              <th class="py-3 px-3">套餐名称</th>
+              <th class="py-3 px-3">计费周期</th>
+              <th class="py-3 px-3">官方价格</th>
+              <th class="py-3 px-3">包含流量</th>
+              <th class="py-3 px-3 text-right">操作</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#ffffff08]">
+            {brand.plans.map((plan) => (
+              <tr class="hover:bg-[#1c1c22]/50 transition-colors">
+                <td class="py-3 px-3 font-semibold text-white">{plan.name}</td>
+                <td class="py-3 px-3 text-[var(--white-icon)]">{plan.billing}</td>
+                <td class="py-3 px-3 font-mono font-bold text-[#A9FF5B]">{plan.price}</td>
+                <td class="py-3 px-3 text-white font-mono">{plan.traffic}</td>
+                <td class="py-3 px-3 text-right">
+                  <a
+                    href={brand.affiliateUrl}
+                    target="_blank"
+                    rel="nofollow sponsored noopener"
+                    class="px-2.5 py-1 rounded bg-[var(--sec)]/20 hover:bg-[var(--sec)] text-[var(--sec)] hover:text-black font-medium transition-colors"
+                  >
+                    购买选配
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pros & Cons -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="p-6 rounded-3xl bg-[#141416] border border-[#22c55e20] space-y-3">
+        <h3 class="text-lg font-bold text-[#4ade80] flex items-center gap-2">
+          <span>✓</span> 优势亮点 (Pros)
+        </h3>
+        <ul class="space-y-2 text-xs text-[var(--white)] leading-relaxed">
+          {brand.pros.map((pro) => (
+            <li class="flex items-start gap-2">
+              <span class="text-[#22c55e]">•</span>
+              <span>{pro}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="p-6 rounded-3xl bg-[#141416] border border-[#f59e0b20] space-y-3">
+        <h3 class="text-lg font-bold text-[#fbbf24] flex items-center gap-2">
+          <span>!</span> 注意事项与限制 (Cons)
+        </h3>
+        <ul class="space-y-2 text-xs text-[var(--white-icon)] leading-relaxed">
+          {brand.cons.map((con) => (
+            <li class="flex items-start gap-2">
+              <span class="text-[#fbbf24]">•</span>
+              <span>{con}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="p-6 md:p-8 rounded-3xl bg-[#141416] border border-[#ffffff15] shadow-xl mb-12 space-y-4">
+      <h2 class="text-2xl font-bold text-white pb-3 border-b border-[#ffffff10]">
+        常见问题解答 (FAQ)
+      </h2>
+      <div class="space-y-4 text-xs">
+        {brand.faq.map((f) => (
+          <div class="p-4 rounded-xl bg-[#0c0c0e] border border-[#ffffff08] space-y-2">
+            <h4 class="font-bold text-white text-sm">Q: {f.q}</h4>
+            <p class="text-[var(--white-icon)] leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Back Navigation -->
+    <div class="text-center pt-6">
+      <a
+        href="/brands"
+        class="inline-flex items-center gap-2 text-xs text-[var(--sec)] hover:underline"
+      >
+        ← 返回 42 家机场品牌库大全
+      </a>
+    </div>
+
+    <!-- Inject Schema.org JSON-LD -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </main>
+
+  <Footer />
+</Layout>

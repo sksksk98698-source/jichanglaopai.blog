@@ -1,0 +1,298 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+import { brands } from "@/data/brands";
+
+const title = "42家机场品牌全量库 | 专线测速、套餐价格与协议参数对比";
+const description = "老牌机场 (jichanglaopai.blog) 42家主流机场服务商技术数据库，覆盖 IEPL/IPLC 专线、VLESS/Shadowsocks 协议、流媒体与 ChatGPT 解锁状态，提供客观透明的选购参考。";
+---
+
+<Layout title={title} description={description}>
+  <Nav />
+
+  <main class="max-w-5xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Header -->
+    <div class="mb-10 text-left space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#A9FF5B] animate-pulse"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase">
+          独立评测实验室 · 42 家服务商收录
+        </span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight">
+        42 家机场品牌库与参数筛选
+      </h1>
+      <p class="text-sm md:text-base text-[var(--white-icon)] max-w-3xl leading-relaxed">
+        收录包含 IEPL 专线、全 IPLC 专线及优质 BGP 节点的所有 42 家机场。支持按专线架构、支持协议、测速实测状态及价格区间即时过滤。所有数据均经由人工逐项核查，注册链接严格规范标注。
+      </p>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="p-6 rounded-2xl bg-[#141416] border border-[#ffffff10] mb-8 space-y-4">
+      <!-- Search Input -->
+      <div class="relative">
+        <input
+          type="text"
+          id="brand-search"
+          placeholder="搜索品牌名称（如：光速云、暮光加速、飞猫云）或协议/专线关键词..."
+          class="w-full px-5 py-3.5 pl-12 rounded-xl bg-[#0c0c0e] border border-[#ffffff15] text-white placeholder-[#71717a] text-sm focus:outline-none focus:border-[var(--sec)] transition-colors"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="absolute left-4 top-1/2 -translate-y-1/2 text-[#71717a]"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+
+      <!-- Quick Filter Pills -->
+      <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
+        <span class="text-[var(--white-icon)] mr-1">快捷筛选:</span>
+        <button
+          class="filter-pill active px-3.5 py-1.5 rounded-lg border transition-all"
+          data-filter="all"
+        >
+          全部 42 家
+        </button>
+        <button
+          class="filter-pill px-3.5 py-1.5 rounded-lg border transition-all"
+          data-filter="speedtest"
+        >
+          有实测测速图 (17+)
+        </button>
+        <button
+          class="filter-pill px-3.5 py-1.5 rounded-lg border transition-all"
+          data-filter="iepl"
+        >
+          IEPL 专线
+        </button>
+        <button
+          class="filter-pill px-3.5 py-1.5 rounded-lg border transition-all"
+          data-filter="iplc"
+        >
+          IPLC 专线
+        </button>
+        <button
+          class="filter-pill px-3.5 py-1.5 rounded-lg border transition-all"
+          data-filter="vless"
+        >
+          VLESS 协议
+        </button>
+        <button
+          class="filter-pill px-3.5 py-1.5 rounded-lg border transition-all"
+          data-filter="top10"
+        >
+          Top 10 核心梯队
+        </button>
+      </div>
+
+      <!-- Filter Stats -->
+      <div class="flex items-center justify-between text-xs text-[var(--white-icon)] pt-2 border-t border-[#ffffff08]">
+        <div>
+          显示匹配：<span id="match-count" class="font-bold text-[var(--sec)]">42</span> 家品牌
+        </div>
+        <div class="text-[#71717a]">
+          * 推广链接使用 rel="nofollow sponsored noopener" 标注
+        </div>
+      </div>
+    </div>
+
+    <!-- Brands Grid -->
+    <div id="brands-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        brands.map((brand) => (
+          <div
+            class="brand-card group flex flex-col justify-between rounded-2xl bg-[#141416] border border-[#ffffff10] hover:border-[var(--sec)]/60 transition-all duration-300 p-5 shadow-lg"
+            data-name={brand.name.toLowerCase()}
+            data-line={brand.lineType.toLowerCase()}
+            data-protocol={brand.protocol.toLowerCase()}
+            data-hastest={brand.hasSpeedtest ? "true" : "false"}
+            data-top10={brand.isTop10 ? "true" : "false"}
+            data-desc={brand.shortDesc.toLowerCase()}
+          >
+            <div>
+              <!-- Card Header -->
+              <div class="flex items-center justify-between pb-3 border-b border-[#ffffff08] mb-3">
+                <div class="flex items-center gap-2">
+                  <span class="size-6 rounded-full bg-[#1c1c22] text-[var(--sec)] flex items-center justify-center text-xs font-bold font-mono">
+                    #{brand.rank}
+                  </span>
+                  <h3 class="text-base font-bold text-white group-hover:text-[var(--sec)] transition-colors">
+                    {brand.name}
+                  </h3>
+                </div>
+                {brand.isFeatured && (
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--sec)] text-black">
+                    主推旗舰
+                  </span>
+                )}
+                {!brand.isFeatured && brand.isTop10 && (
+                  <span class="text-[10px] font-medium px-2 py-0.5 rounded bg-[#241a38] text-[#c9b3ff] border border-[#a476ff30]">
+                    Top 10
+                  </span>
+                )}
+              </div>
+
+              <!-- Price & Tagline -->
+              <div class="flex items-baseline justify-between mb-2">
+                <span class="text-xs text-[var(--white-icon)]">入门价格</span>
+                <span class="text-xs font-mono font-semibold text-[#A9FF5B]">
+                  {brand.priceStarting}
+                </span>
+              </div>
+
+              <!-- Description -->
+              <p class="text-xs text-[var(--white-icon)] line-clamp-2 leading-relaxed mb-3">
+                {brand.shortDesc}
+              </p>
+
+              <!-- Line & Protocol badges -->
+              <div class="flex flex-wrap gap-1.5 mb-4 text-[11px]">
+                <span class="px-2 py-0.5 rounded bg-[#1e1e24] text-[#d4d4d8]">
+                  {brand.lineType}
+                </span>
+                <span class="px-2 py-0.5 rounded bg-[#1e1e24] text-[#d4d4d8]">
+                  {brand.protocol}
+                </span>
+                {brand.hasSpeedtest && (
+                  <span class="px-2 py-0.5 rounded bg-[#22c55e15] text-[#4ade80] border border-[#22c55e30]">
+                    实测图已收录
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="pt-3 border-t border-[#ffffff08] flex items-center justify-between gap-2">
+              <a
+                href={`/brands/${brand.slug}`}
+                class="text-xs text-[var(--white-icon)] hover:text-white flex items-center gap-1 font-medium"
+              >
+                详情测评 →
+              </a>
+
+              <a
+                href={brand.affiliateUrl}
+                target="_blank"
+                rel="nofollow sponsored noopener"
+                class="px-3.5 py-1.5 rounded-lg bg-[var(--sec)]/15 hover:bg-[var(--sec)] text-[var(--sec)] hover:text-black font-medium text-xs transition-colors border border-[var(--sec)]/30"
+              >
+                官网注册 {brand.couponCode ? `(券)` : ""}
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Empty Result state -->
+    <div
+      id="empty-state"
+      class="hidden flex-col items-center justify-center p-12 text-center rounded-2xl bg-[#141416] border border-[#ffffff10] my-8 space-y-3"
+    >
+      <div class="text-4xl">🔍</div>
+      <h3 class="text-lg font-medium text-white">未找到匹配的机场品牌</h3>
+      <p class="text-xs text-[var(--white-icon)]">
+        请尝试更改搜索词或点击“全部 42 家”重置筛选条件。
+      </p>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .filter-pill {
+    background-color: #121214;
+    border-color: #ffffff14;
+    color: var(--white-icon);
+  }
+  .filter-pill:hover {
+    border-color: var(--sec);
+    color: white;
+  }
+  .filter-pill.active {
+    background-color: var(--sec);
+    border-color: var(--sec);
+    color: black;
+    font-weight: 600;
+  }
+</style>
+
+<script>
+  const searchInput = document.getElementById("brand-search") as HTMLInputElement;
+  const cards = document.querySelectorAll(".brand-card") as NodeListOf<HTMLElement>;
+  const matchCount = document.getElementById("match-count");
+  const emptyState = document.getElementById("empty-state");
+  const pills = document.querySelectorAll(".filter-pill");
+
+  let currentFilter = "all";
+  let searchQuery = "";
+
+  function applyFilters() {
+    let visibleCount = 0;
+    const q = searchQuery.toLowerCase().trim();
+
+    cards.forEach((card) => {
+      const name = card.dataset.name || "";
+      const line = card.dataset.line || "";
+      const protocol = card.dataset.protocol || "";
+      const hasTest = card.dataset.hastest === "true";
+      const top10 = card.dataset.top10 === "true";
+      const desc = card.dataset.desc || "";
+
+      // Text match
+      const textMatch = !q || name.includes(q) || line.includes(q) || protocol.includes(q) || desc.includes(q);
+
+      // Pill filter match
+      let pillMatch = true;
+      if (currentFilter === "speedtest") pillMatch = hasTest;
+      else if (currentFilter === "iepl") pillMatch = line.includes("iepl");
+      else if (currentFilter === "iplc") pillMatch = line.includes("iplc");
+      else if (currentFilter === "vless") pillMatch = protocol.includes("vless");
+      else if (currentFilter === "top10") pillMatch = top10;
+
+      if (textMatch && pillMatch) {
+        card.style.display = "flex";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    if (matchCount) matchCount.textContent = visibleCount.toString();
+    if (emptyState) {
+      if (visibleCount === 0) {
+        emptyState.classList.remove("hidden");
+        emptyState.classList.add("flex");
+      } else {
+        emptyState.classList.add("hidden");
+        emptyState.classList.remove("flex");
+      }
+    }
+  }
+
+  searchInput?.addEventListener("input", (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    applyFilters();
+  });
+
+  pills.forEach((pill) => {
+    pill.addEventListener("click", () => {
+      pills.forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      currentFilter = pill.getAttribute("data-filter") || "all";
+      applyFilters();
+    });
+  });
+</script>

@@ -1,0 +1,140 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Nav from "@/components/nav.astro";
+import Footer from "@/components/footer.astro";
+import { brands } from "@/data/brands";
+
+const title = "2026 晚高峰机场专线测速实验室报告 | 17+主流机场丢包与跑速实测";
+const description = "老牌机场实验室收集并展示 17+ 主流机场在晚高峰时段的节点跑速与延迟测试切片大图，覆盖 IEPL/IPLC 物理专线与优质 BGP 节点，提供客观透明的测速存档。";
+
+// Filter brands with real speedtest images
+const testedBrands = brands.filter((b) => b.hasSpeedtest);
+---
+
+<Layout title={title} description={description} canonical="https://jichanglaopai.blog/speedtest/">
+  <Nav />
+
+  <main class="max-w-5xl mx-auto pt-28 md:pt-36 pb-20 text-[var(--white)]">
+    <!-- Header -->
+    <div class="mb-10 text-left space-y-4">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-[#22c55e] animate-ping"></span>
+        <span class="text-xs md:text-sm font-semibold tracking-wider text-[var(--sec)] uppercase">
+          Network Observatory · 实测数据存档
+        </span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-medium tracking-tight">
+        2026 晚高峰专线测速实验室报告
+      </h1>
+      <p class="text-sm md:text-base text-[var(--white-icon)] max-w-3xl leading-relaxed">
+        本页面汇集了基于 MAI-TEST-BOT 及专业测速客户端对主流机场节点的真实测试切片。重点观察晚高峰（20:00 - 23:00）时段各机场香港、日本、新加坡、美国核心专线出口的实际跑速、丢包率与节点稳定性。
+      </p>
+    </div>
+
+    <!-- Methodology Notice & Limitations -->
+    <div class="p-6 rounded-2xl bg-[#141416] border border-[#ffffff10] mb-10 space-y-3">
+      <div class="flex items-center gap-2 text-sm font-bold text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--sec)]"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        测速环境与客观局限性说明 (Transparency Notice)
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-[var(--white-icon)] pt-1">
+        <div class="p-3 rounded-xl bg-[#0c0c0e]">
+          <span class="font-semibold text-white block mb-1">• 本地网络环境差异</span>
+          测速结果受测试端宽带（电信/联通/移动）、本地路由器 QoS 及中继入口拥堵影响，单次测速不代表所有地区体验一致。
+        </div>
+        <div class="p-3 rounded-xl bg-[#0c0c0e]">
+          <span class="font-semibold text-white block mb-1">• 跑速与稳定性区别</span>
+          单次极限突发跑满带宽并不等于 24 小时零丢包，选购时应优先看重物理专线（IEPL/IPLC）的持续在线率。
+        </div>
+        <div class="p-3 rounded-xl bg-[#0c0c0e]">
+          <span class="font-semibold text-white block mb-1">• 拒绝虚假营销与刷榜</span>
+          所有测试图均保留原始测试时间戳、测试工具版本与节点名称，不进行任何人工抹除或拼接修图。
+        </div>
+      </div>
+    </div>
+
+    <!-- Tested Brands Gallery -->
+    <div class="space-y-8">
+      {
+        testedBrands.map((brand) => (
+          <div class="p-6 md:p-8 rounded-3xl bg-[#141416] border border-[#ffffff12] shadow-xl space-y-6">
+            <!-- Brand Bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#ffffff08] gap-3">
+              <div class="flex items-center gap-3">
+                <span class="size-7 rounded-lg bg-[#1e1e24] text-[var(--sec)] flex items-center justify-center text-xs font-bold font-mono">
+                  #{brand.rank}
+                </span>
+                <div>
+                  <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    {brand.name}
+                    {brand.isFeatured && (
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-[var(--sec)] text-black font-bold">
+                        主推旗舰
+                      </span>
+                    )}
+                  </h3>
+                  <span class="text-xs text-[var(--white-icon)]">
+                    {brand.lineType} · {brand.protocol} · {brand.priceStarting}
+                  </span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 self-start sm:self-auto">
+                <a
+                  href={`/brands/${brand.slug}`}
+                  class="px-3.5 py-1.5 rounded-lg text-xs bg-[#1e1e24] text-[var(--white)] hover:text-white border border-[#ffffff10] transition-colors"
+                >
+                  查看完整测评
+                </a>
+                <a
+                  href={brand.affiliateUrl}
+                  target="_blank"
+                  rel="nofollow sponsored noopener"
+                  class="px-3.5 py-1.5 rounded-lg text-xs bg-[var(--sec)] text-black font-semibold hover:opacity-90 transition-opacity"
+                >
+                  官网开通
+                </a>
+              </div>
+            </div>
+
+            <!-- Metrics Preview -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              {brand.testMetrics?.slice(0, 4).map((m) => (
+                <div class="p-3 rounded-xl bg-[#0c0c0e] border border-[#ffffff06]">
+                  <span class="text-[var(--white-icon)] block truncate">{m.node}</span>
+                  <div class="text-sm font-bold font-mono text-[#A9FF5B] mt-1">{m.download}</div>
+                  <span class="text-[11px] text-[#71717a] font-mono">延迟: {m.latency}</span>
+                </div>
+              ))}
+            </div>
+
+            <!-- Test Image Viewer -->
+            <div class="rounded-2xl overflow-hidden border border-[#ffffff10] bg-[#09090b]">
+              <div class="p-3 bg-[#111114] border-b border-[#ffffff08] flex items-center justify-between text-xs text-[var(--white-icon)]">
+                <span>测速大图实测归档：{brand.name}</span>
+                <span class="text-[#71717a] text-[11px]">点击图片可查看原始高清大图</span>
+              </div>
+              <div class="p-4 flex justify-center bg-[#070709]">
+                <a href={brand.speedtestImage} target="_blank" class="block group relative">
+                  <img
+                    src={brand.speedtestImage}
+                    alt={`${brand.name} 测速实测图`}
+                    class="max-h-96 w-auto rounded-lg object-contain transition-transform group-hover:scale-[1.01]"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg">
+                    <span class="px-4 py-2 rounded-lg bg-black/80 text-xs text-white border border-white/20">
+                      在新标签页中查看 100% 原始高清测试切片 ↗
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

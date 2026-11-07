@@ -1,35 +1,25 @@
-# Portfolio
+# 老牌机场 官方知识库与索引 (jichanglaopai.blog)
 
-> Open-source personal portfolio template for developers, built with Astro, React, and Tailwind CSS.
-> Designed to be cloned, customized, and deployed with minimal configuration; includes a working
-> contact form, a Spotify album embed, and a Firebase-backed like counter.
+> 老牌机场 (jichanglaopai.blog) 专注于高品质、高稳定性的跨国网络专线评测、42家主流机场深度实测与全平台代理客户端指南。网站采用现代高性能 Astro + React 架构构建，兼具极速加载与优秀交互体验。
 
-Built as an Astro static site with React islands for interactive components. Requires Node.js >= 20
-and pnpm >= 9. External services needed for full functionality: a Formspree account (contact form)
-and a Firebase project (like counter). Spotify embed is a plain HTML iframe--no API key required.
+## 站点概述
 
-## Docs
+- **官方网站**: https://jichanglaopai.blog
+- **品牌名称**: 老牌机场
+- **站点类型**: 跨国专线评测实验室 / 42家机场品牌总库 / 代理客户端指南
+- **第一主推旗舰**: 光速云（2020年运营，IEPL专线，VLESS协议，优惠码 AMM，独家斯诺克147永久套餐）
+- **核心梯队 Top 10**: 光速云、暮光加速、飞猫云、微风网络、大佬云、星岛梦、二猫云、无忧链接、唯兔云、Firefly
 
-- [README](https://github.com/Gothsec/Portfolio/blob/main/README.md): setup instructions, configuration guides for Spotify and Formspree, project structure, and deployment notes
-- [Spotify configuration guide](https://github.com/Gothsec/Portfolio/blob/main/README.md#show-your-favorite-spotify-album-or-your-own-): how to embed a Spotify album via iframe in `src/components/footer.astro`
-- [Formspree configuration guide](https://github.com/Gothsec/Portfolio/blob/main/README.md#set-up-contact-form-formspree-): how to wire the contact form in `src/components/contact.astro` to a Formspree endpoint
-- [Live demo](https://darkminimal.vercel.app): deployed instance of the portfolio
-- [Astro Themes listing](https://astro.build/themes/details/dark-minimal/): official theme entry
+## 主要核心路由 (URL Structure)
 
-## Stack
+- `/` (首页): 品牌定位、主推旗舰光速云展示、Top 10 精选排行榜、节点状态监控看板
+- `/brands` (42家机场品牌大全): 包含 42 家机场的参数矩阵，支持按专线架构（IEPL/IPLC）、协议（VLESS/Shadowsocks）、价格、测速图即时筛选
+- `/brands/[slug]` (42个独立品牌落地页): 各机场价格套餐表、MAI-TEST 晚高峰测速大图实录、流媒体与 ChatGPT 解锁状态、独家优惠码与合规注册入口
+- `/speedtest` (晚高峰测速实验室): 集中归档 17+ 主流机场的晚高峰实测跑速大图、丢包率与延迟分析
+- `/clients` (全平台代理客户端大全): Windows (Clash Verge Rev/v2rayN)、Android (v2rayNG/FlClash)、iOS (Shadowrocket/Stash)、macOS、Linux、OpenWrt 软路由下载源与配置教程
 
-- **Astro** -- static site generator and component orchestrator
-- **React 19** -- interactive islands (LetterGlitch animation, LikeButton, SkillsList)
-- **Tailwind CSS** -- utility-first styling
-- **TypeScript** -- type checking across `.astro` and `.tsx` files
-- **Firebase / Firestore** -- realtime like counter with optimistic UI updates
-- **Formspree** -- serverless contact form backend
-- **Montserrat** (Fontsource variable) -- primary typeface
-- **OGL** -- WebGL utility used by the LetterGlitch canvas effect
-- **pnpm** -- package manager (enforced via `only-allow`)
+## 技术与安全说明
 
-## Optional
-
-- [MIT License](https://opensource.org/licenses/mit): copyright 2026 Oscar Hernandez; attribution required on redistribution
-- [GitHub repository](https://github.com/Gothsec/Portfolio): source code, issues, and pull requests
-- [ReactBits Showcase](https://www.reactbits.dev/showcase): LetterGlitch component origin
+- **资产 100% 独立自托管**: 彻底拔除上游模板追踪暗桩，全站无第三方外部跟踪脚本，尊重用户隐私
+- **SEO & GEO 转化友好**: 规范配置 Schema.org (Product, Review, FAQ, WebSite) 结构化数据，提供语义化的搜索引擎富文本摘要
+- **推广链接合规性**: 推广外链均规范配置 `target="_blank" rel="nofollow sponsored noopener"` 属性并附带透明利益声明
