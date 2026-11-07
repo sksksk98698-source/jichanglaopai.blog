@@ -15,7 +15,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build && node copy_sitemap.mjs",
+    "build": "astro build && node copy_sitemap.mjs",
+    "check": "astro check",
     "preview": "astro preview",
     "astro": "astro"
   },
